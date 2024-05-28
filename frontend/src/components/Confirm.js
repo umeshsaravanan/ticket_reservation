@@ -17,7 +17,7 @@ const Confirm = () => {
             }
         }
         getWaitingList();
-    }, [])
+    }, [waitingList])
 
     return (
         <div>

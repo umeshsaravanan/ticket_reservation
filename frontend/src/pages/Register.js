@@ -24,7 +24,7 @@ const Register = () => {
     const handleEmailChange = (e) =>{
         setEmail(e.target.value);
         const mail = e.target.value;
-        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        const pattern = /^[a-zA-Z0-9._%+-]+@gmail+\.[a-zA-Z]{2,}$/
 
         if(pattern.test(mail))
           setValid(true)
@@ -71,7 +71,7 @@ const Register = () => {
         }
     }
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-slate-300">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div>
           <h2 className="text-2xl font-bold text-center text-gray-900">Create your account</h2>
