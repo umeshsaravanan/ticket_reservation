@@ -1,0 +1,29 @@
+import React from 'react'
+import Navbar from '../components/Navbar';
+import BusSeats from '../components/BusSeats';
+import SingleBus from '../components/SingleBus';
+import Footer from '../components/Footer';
+
+const Booking = () => {
+    return (
+        <div className='max-w-screen-xl bg-slate-300 '>
+            <Navbar />
+            <h1 className='text-center font-bold mt-4'>Select your Seats</h1>
+            <div className='flex flex-col gap-2 bg-red-300 w-[90%] mx-auto p-2 text-sm my-4'>
+                <h1 className='font-bold'>NOTE</h1>
+                <ul>
+                    <p>-&gt; Cancellation Available before 1hr of Starting Time</p>
+                    <p>-&gt; <span className='text-md font-bold'>5%</span> per ticket will be taken as Penalty if you cancel within 1day of booking</p>
+                    <p>-&gt; <span className='text-md font-bold'>40%</span> per ticket will be taken as Penalty if you cancel After 1day</p>
+                </ul>
+            </div>
+            <div className='flex flex-col md:flex-row gap-4 w-[90%] mx-auto max-w-screen-xl'>
+                <BusSeats />
+                <SingleBus />
+            </div>
+            <Footer />
+        </div>
+    )
+}
+
+export default Booking
