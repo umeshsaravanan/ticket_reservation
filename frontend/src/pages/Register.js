@@ -56,7 +56,7 @@ const Register = () => {
     const handleRegister = async (e)=>{
         e.preventDefault();
         try{
-          await axios.post(`${process.env.BASE_URI}/register`,{
+          await axios.post(`${process.env.REACT_APP_BASE_URI}/register`,{
             username,
             email,
             pwd

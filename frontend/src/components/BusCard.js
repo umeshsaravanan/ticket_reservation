@@ -20,7 +20,7 @@ const BusCard = ({busDetails, setBuses}) => {
 
     const handleDelete = async () => {
         try {
-          const response = await axios.delete(`${process.env.BASE_URI}/admin/delete/${busDetails._id}`);
+          const response = await axios.delete(`${process.env.REACT_APP_BASE_URI}/admin/delete/${busDetails._id}`);
     
           if (response.data.msg) {
             dispatch(notifySuccess("deleted Successfully"));

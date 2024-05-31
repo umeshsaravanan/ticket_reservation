@@ -38,7 +38,7 @@ const SingleBus = () => {
   useEffect(() => {
     async function fetchSingleData() {
       try {
-        const response = await axios.get(`${process.env.BASE_URI}/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URI}/${id}`);
         if (response.data.err)
           dispatch(notifyError(response.data.err))
         else {
@@ -66,7 +66,7 @@ const SingleBus = () => {
 
   const handleConfirm = async () => {
     try {
-      const response = await axios.post(`${process.env.BASE_URI}/${id}/${user}/confirmticket`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/${id}/${user}/confirmticket`, {
         list,
         countSelectedSeats,
         total
@@ -89,7 +89,7 @@ const SingleBus = () => {
   const handleSubmit = async () => {
 
     try {
-      const response = await axios.put(`${process.env.BASE_URI}/admin/update/${id}`, {
+      const response = await axios.put(`${process.env.REACT_APP_BASE_URI}/admin/update/${id}`, {
         start,
         end,
         startTime : Number(startTime),

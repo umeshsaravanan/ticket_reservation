@@ -15,7 +15,7 @@ const BookedDetails = () => {
   useEffect(() => {
     async function getHistory() {
       try {
-        let response = await axios.get(`${process.env.BASE_URI}/gethistory/${username}`)
+        let response = await axios.get(`${process.env.REACT_APP_BASE_URI}/gethistory/${username}`)
         const list = response.data.response
         setHistory(list)
         setDisplay(list.length > 0)
@@ -28,7 +28,7 @@ const BookedDetails = () => {
 
   // const handleDeleteAll = async() =>{
   //   try{
-  //     const response = await axios.delete(`${process.env.BASE_URI}/admin/deleteall`)
+  //     const response = await axios.delete(`${process.env.REACT_APP_BASE_URI}/admin/deleteall`)
 
   //     if(response.data.err)
   //       dispatch(notifyError(response.data.err))

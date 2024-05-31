@@ -13,15 +13,15 @@ const BusDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const admin = sessionStorage.getItem('role') === '2003';
-
+    
     useEffect(() => {
         async function fetchData() {
             try {
                 let response;
                 if(admin)
-                    response = await axios.get(`${process.env.BASE_URI}/admin/allbus`)
+                    response = await axios.get(`${process.env.REACT_APP_BASE_URI}/admin/allbus`)
                 else
-                    response = await axios.get(`${process.env.BASE_URI}/`);
+                    response = await axios.get(`${process.env.REACT_APP_BASE_URI}/`);
 
                 if (response.data.array)
                     setBuses(response.data.array);

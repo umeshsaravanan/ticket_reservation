@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess } from '../redux/slice'
 import { ToastContainer } from 'react-toastify'
+
 const AddBus = () => {
 
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const AddBus = () => {
 
     if(agency && endLng && endLat && startLng && startLat && ticketPrice && travelHrs && endTime && startTime && date && end && start && id){
       try {
-        const response = await axios.post(`${process.env.BASE_URI}/admin/add`, {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/admin/add`, {
           busName: agency,
           start,
           end,
