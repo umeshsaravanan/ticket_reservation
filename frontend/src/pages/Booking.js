@@ -22,7 +22,7 @@ const Booking = () => {
             </div>
                 </>
             ): <h1 className='text-center font-bold mt-4'>Edit Bus Details</h1>}
-            <div className='flex flex-col md:flex-row gap-4 w-[90%] mx-auto max-w-screen-xl'>
+            <div className='flex flex-col md:flex-row gap-4 w-[90%] mx-auto max-w-screen-xl pb-4'>
                 { !admin ? <BusSeats /> : null}
                 <SingleBus />
             </div>

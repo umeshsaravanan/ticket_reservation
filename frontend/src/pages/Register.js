@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { notifyError } from '../redux/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { notifyError, toggleLoading } from '../redux/slice';
 import { ToastContainer } from 'react-toastify';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const Register = () => {
@@ -15,7 +16,8 @@ const Register = () => {
     const [ pwd, setPwd ] = useState('');
     const [ confirmpwd, setConfirmpwd ] = useState('');
     const [ error, setError ] = useState('');
-    const [ valid, setValid] = useState(true)
+    const [ valid, setValid] = useState(true);
+    const isLoading = useSelector(state => state.slice1.isLoading)
 
     const handleNameChange = (e) =>{
         setUsername(e.target.value);
@@ -54,6 +56,7 @@ const Register = () => {
     }
 
     const handleRegister = async (e)=>{
+      dispatch(toggleLoading())
         e.preventDefault();
         try{
           await axios.post(`${process.env.REACT_APP_BASE_URI}/register`,{
@@ -69,10 +72,11 @@ const Register = () => {
         }catch(err){
           dispatch(notifyError('Error Occured'))
         }
+        dispatch(toggleLoading())
     }
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-300">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center h-screen bg-slate-300">
+      <div className="w-[90%] max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div>
           <h2 className="text-2xl font-bold text-center text-gray-900">Create your account</h2>
         </div>
@@ -137,7 +141,7 @@ const Register = () => {
               type="submit"
               className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Register
+              {isLoading ? <ClipLoader color={'white'} size={25} /> : 'Register'}
             </button>
           </div>
           <div className="text-center mt-4">

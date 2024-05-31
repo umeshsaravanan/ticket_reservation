@@ -97,7 +97,7 @@ const Location = ({ from, to }) => {
       style={{ pointerEvents: mapVisible ? 'auto' : 'none' }}
     >
       <div className="absolute inset-0 bg-slate-600 bg-opacity-75 z-50 flex items-center justify-center w-screen h-screen max-w-screen-xl">
-        <div className="pt-16 md:w-[60%] md:h-[80%] w-[90%] h-screen overflow-hidden relative ">
+        <div className="pt-16 md:w-[60%] md:h-[80%] w-[90%] h-[80vh] overflow-hidden relative ">
           <Map
             mapLib={maplibregl}
             initialViewState={{

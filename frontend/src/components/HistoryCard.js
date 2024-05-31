@@ -37,9 +37,9 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
         else{
           dispatch(notifyWarning('\u20B9' + response.data.penalty + ' Penalty Applied'))
           dispatch(notifySuccess('Tickets Cancelled'))
-          setTimeout(() =>{
-            navigate('/');
-          }, 2000)
+          setTimeout(()=>{
+            setHistory(prev => prev.filter(user => user._id !== history._id)); 
+          },2000)
         }
       }catch(err){
         dispatch(notifyError(err))

@@ -5,8 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { notifySuccess, notifyError, notifyWarning, toggleMap } from '../redux/slice';
+import { notifySuccess, notifyError, notifyWarning, toggleMap, toggleInfo } from '../redux/slice';
 import Location from './Location';
+import Infocard from './InfoCard';
 
 const SingleBus = () => {
 
@@ -32,6 +33,7 @@ const SingleBus = () => {
   const dispatch = useDispatch();
   const list = useSelector(state => state.slice1.selectedSeats)
   const user = useSelector(state => state.slice1.username)
+  const infoVisible = useSelector(state => state.slice1.infoVisible)
   const countSelectedSeats = list ? list.reduce((count, seat) => count + (seat ? 1 : 0), 0) : 0;
   const total = countSelectedSeats * ticketPrice;
 
@@ -73,9 +75,10 @@ const SingleBus = () => {
       })
 
       if (response.data.msg) {
-        setTimeout(() => {
-          navigate('/', { replace: true })
-        }, 2000)
+        // setTimeout(() => {
+        //   navigate('/', { replace: true })
+        // }, 2000)
+        dispatch(toggleInfo())
         dispatch(notifySuccess('Hooray! Booking Confirmed'))
       }
       else {
@@ -258,6 +261,7 @@ const SingleBus = () => {
       </div>
       <ToastContainer newestOnTop autoClose={2000} />
       {fromCoordinates && toCoordinates && <Location from={fromCoordinates} to={toCoordinates} />}
+      {infoVisible && <Infocard text={'Booking Confirmed'}/>}
     </div>
   )
 }

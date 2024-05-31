@@ -40,7 +40,7 @@ const BusDetails = () => {
                 {
                     admin ? (
                         <div className='flex justify-end'>
-                            <button className='px-4 py-1 bg-blue-500 rounded-md text-white font-medium mt-2 md:mr-6' onClick={() => navigate('dashboard/addbus')}> <IonIcon icon={add} /> New</button>
+                            <button className='px-4 py-1 bg-blue-500 rounded-md text-white font-medium mt-2 md:mr-14' onClick={() => navigate('dashboard/addbus')}> <IonIcon icon={add} /> New</button>
                         </div>
                     ) : null
                 }

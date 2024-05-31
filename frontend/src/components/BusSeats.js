@@ -31,29 +31,33 @@ const BusSeats = () => {
         <div className='px-4 py-10 mx-auto my-4 w-[200px] h-[400px] bg-slate-300 border border-1 border-black rounded-md space-y-4 shadow-md'>
             {seatInfo ? [...Array(8)].map((_, index) => (
                 <div key={index} className='flex justify-between'>
-                    <div className='flex gap-1'>
+                    <div className='flex gap-1 relative'>
                         <IonIcon
                             icon={seatInfo[(4 * index) + 0] || activeIcons[(4 * index) + 1] ? ellipse : ellipseOutline}
-                            className={`text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 0] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 1] ? 'text-green-400' : ''} cursor-pointer`}
+                            className={`z-10 text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 0] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 1] ? 'text-green-400' : ''} cursor-pointer`}
                             onClick={() =>!admin && !seatInfo[(4 * index) + 0] && toggleIcon((4 * index) + 1)}
                         />
+                        <p className='absolute font-medium text-[9px] top-1 left-2'>{(4 * index) + 1}</p>
                         <IonIcon
                             icon={seatInfo[(4 * index) + 1] || activeIcons[(4 * index) + 2] ? ellipse : ellipseOutline}
-                            className={`text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 1] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 2] ? 'text-green-400' : ''} cursor-pointer`}
+                            className={`z-10 text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 1] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 2] ? 'text-green-400' : ''} cursor-pointer`}
                             onClick={() =>!admin && !seatInfo[(4 * index) + 1] && toggleIcon((4 * index) + 2)}
                         />
+                        <p className='absolute font-medium text-[9px] top-1 left-9'>{(4 * index) + 2}</p>
                     </div>
-                    <div className='flex gap-1'>
+                    <div className='flex gap-1 relative'>
                         <IonIcon
                             icon={seatInfo[(4 * index) + 2] || activeIcons[(4 * index) + 3] ? ellipse : ellipseOutline}
-                            className={`text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 2] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 3] ? 'text-green-400' : ''} cursor-pointer`}
+                            className={`z-10 text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 2] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 3] ? 'text-green-400' : ''} cursor-pointer`}
                             onClick={() =>!admin && !seatInfo[(4 * index) + 2] && toggleIcon((4 * index) + 3)}
                         />
+                        <p className='absolute font-medium left-2 text-[9px] top-1'>{(4 * index) + 3}</p>
                         <IonIcon
                             icon={seatInfo[(4 * index) + 3] || activeIcons[(4 * index) + 4] ? ellipse : ellipseOutline}
-                            className={`text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 3] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 4] ? 'text-green-400' : ''} cursor-pointer`}
+                            className={`z-10 text-2xl ${ admin ? 'cursor-not-allowed' : ''} ${seatInfo[(4 * index) + 3] ? 'text-red-400 cursor-not-allowed' : activeIcons[(4 * index) + 4] ? 'text-green-400' : ''} cursor-pointer`}
                             onClick={() =>!admin && !seatInfo[(4 * index) + 3] && toggleIcon((4 * index) + 4)}
                         />
+                        <p className='absolute font-medium left-9 text-[9px] top-1'>{(4 * index) + 4}</p>
                     </div>
                 </div>
             )) : null}

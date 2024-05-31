@@ -35,9 +35,9 @@ const ProfileCard = () => {
             <div className='flex flex-col justify-start text-white *:p-2 *:pl-4 *:flex *:items-center *:text-sm *:cursor-pointer' onClick={() => dispatch(toggleProfile())}>
                 {admin ? <Link to='/dashboard' className='hover:bg-gray-800'><p className='flex items-center'><IonIcon className='mr-2 text-xl' icon={logInOutline} /> Admin</p></Link> : <Link to='/cancel' className='hover:bg-gray-800'><p className='flex items-center'><IonIcon className='mr-2 text-xl' icon={newspaperOutline} /> Bookings</p></Link>}
                 {redux.username ? (
-                    <p className='hover:bg-gray-800' onClick={handleLogout}><IonIcon className='mr-2 text-xl' icon={logOutOutline} /> Log Out</p>
+                    <p className='hover:bg-gray-800' onClick={handleLogout}><IonIcon className='mr-2 text-xl' icon={logOutOutline} /> Sign Out</p>
                 ) :
-                    <Link to='/login' className='hover:bg-gray-800 '><p className='flex items-center'> <IonIcon className='mr-2 text-xl' icon={logInOutline} /> Log In</p></Link>}
+                    <Link to='/login' className='hover:bg-gray-800 '><p className='flex items-center'> <IonIcon className='mr-2 text-xl' icon={logInOutline} /> Sign In</p></Link>}
             </div>
 
         </div>

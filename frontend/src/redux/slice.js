@@ -14,6 +14,8 @@ export const Slice = createSlice({
         availableSeats: null,
         selectedSeats: null,
         mapVisible : false,
+        infoVisible : false,
+        isLoading: false,
         admin : sessionStorage.getItem('role') === '2003'
     },
     reducers:{
@@ -34,6 +36,12 @@ export const Slice = createSlice({
         toggleMap : state =>{
             state.mapVisible = !state.mapVisible;
         },
+        toggleLoading : state =>{
+            state.isLoading = !state.isLoading;
+        },
+        toggleInfo : state =>{
+            state.infoVisible = !state.infoVisible;
+        },
         setAvailableSeats: (state,action) =>{
             state.availableSeats = action.payload
         },
@@ -52,7 +60,7 @@ export const Slice = createSlice({
     }
 })
 
-export const {toggleProfile, setUserName, setAvailableSeats, setSelectedSeats, setUserEmail,toggleMap, setUserRole, notifySuccess, notifyWarning, notifyError} = Slice.actions
+export const {toggleProfile, setUserName, setAvailableSeats, setSelectedSeats, setUserEmail, toggleMap, toggleLoading, toggleInfo, setUserRole, notifySuccess, notifyWarning, notifyError} = Slice.actions
 
 export const fetchData = (id) => async (dispatch) => {
     try {
