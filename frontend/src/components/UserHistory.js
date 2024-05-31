@@ -44,7 +44,7 @@ const BookedDetails = () => {
           /* <button className='px-4 py-2 bg-red-500 w-[100px] text-white font-bold rounded-md m-2' onClick={handleDeleteAll}>delete</button> */ null
           ) : <h1 className='text-center'>No Booking Yet</h1>
         }
-        <div className='w-[80%] mx-auto flex flex-col gap-4 max-h-screen overflow-y-scroll'>
+        <div className='w-[80%] h-[80vh] mx-auto flex flex-col gap-4 max-h-screen overflow-y-scroll'>
           {
             history ? (
               history.map((data, index) => (
