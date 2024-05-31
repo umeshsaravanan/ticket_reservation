@@ -1,14 +1,14 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import AddBus from '../components/AddBus'
+import AllUsers from '../components/AllUsers'
 
-const NewBus = () => {
+const Users = () => {
   return (
     <div>
       <Navbar />
-      <AddBus />
+      <AllUsers />
     </div>
   )
 }
 
-export default NewBus
+export default Users

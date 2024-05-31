@@ -1,14 +1,12 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import AdminTasks from '../components/AdminTasks'
 
 const Admin = () => {
   return (
-    <div>
+    <div className='min-h-screen  bg-slate-300'>
       <Navbar />
       <AdminTasks />
-      <Footer />
     </div>
   )
 }

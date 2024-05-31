@@ -1,46 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BusCard from './BusCard';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { notifyError } from '../redux/slice';
+import { IonIcon } from '@ionic/react';
+import { add } from 'ionicons/icons';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 const BusDetails = () => {
     const [buses, setBuses] = useState([]);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const admin = sessionStorage.getItem('role') === '2003';
+
     useEffect(() => {
         async function fetchData() {
-            try{
-                const response = await axios.get('http://localhost:5001/');
-                if(response.data.array)
+            try {
+                let response;
+                if(admin)
+                    response = await axios.get('http://localhost:5001/admin/allbus')
+                else
+                    response = await axios.get('http://localhost:5001/');
+
+                if (response.data.array)
                     setBuses(response.data.array);
                 else
                     dispatch(notifyError(response.data.err))
-            }catch(err){
-                dispatch(notifyError(err));
+            } catch (err) {
+                dispatch(notifyError('Error Occured in Fetching Data'));
             }
         }
         fetchData();
-    }, [dispatch])
-
-    const handleBooking = (id) =>{
-        navigate(`/booking/${id}`);
-    }
+    }, [dispatch,admin])
 
     return (
-        <div className='max-w-screen-xl h-full flex justify-center pb-4 w-full'>
-            <div className='md:w-[80%] mx-auto min-h-screen'>
-            <div className='flex flex-col flex-wrap md:flex-row justify-start'>
+        <div className='max-w-screen-xl flex justify-center items-center w-full'>
+            <div className='md:w-[90%] mx-auto'>
                 {
-                    buses ? (
-                        buses.map((bus, index) => (
-                            <div onClick={()=>handleBooking(bus._id)} key={index}><BusCard busDetails={bus}/></div>
-                        ))
+                    admin ? (
+                        <div className='flex justify-end'>
+                            <button className='px-4 py-1 bg-blue-500 rounded-md text-white font-medium mt-2 md:mr-6' onClick={() => navigate('dashboard/addbus')}> <IonIcon icon={add} /> New</button>
+                        </div>
                     ) : null
                 }
+                <div className='mx-auto'>
+                <div className='flex flex-col sm:flex-row sm:flex-wrap justify-start h-[80vh] overflow-y-scroll pb-4 md:gap-8 md:ml-12'>
+                    {
+                        buses ? (
+                            buses.map((bus, index) => (
+                                <BusCard busDetails={bus} setBuses={setBuses} key={index} />
+                            ))
+                        ) : null
+                    }
+                </div>
+                </div>
             </div>
-            </div>
+            <ToastContainer newestOnTop autoClose={2000} />
         </div>
     )
 }

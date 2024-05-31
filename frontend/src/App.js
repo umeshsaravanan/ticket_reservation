@@ -9,9 +9,9 @@ import Page404 from "./pages/Page404";
 import Admin from "./pages/Admin";
 import AdminAuth from "./auth/AdminAuth";
 import NewBus from "./pages/NewBus";
-import DeleteBus from "./pages/DeleteBus";
 import History from "./pages/History";
 import CancelPage from "./pages/CancelPage";
+import Users from "./pages/Users";
 
 function App() {
   return (
@@ -22,13 +22,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<RequireAuth />}>
-            <Route path="/booking/:id" element={<Booking />} />
+            <Route path="/:id" element={<Booking />} />
             <Route path="/cancel" element={<CancelPage />} />
-            <Route path="/admin" element={<AdminAuth />}>
+            <Route path="/dashboard" element={<AdminAuth />}>
               <Route index element={<Admin/>} />
               <Route path="addbus" element={<NewBus />} />
               <Route path="history" element={<History />} />
-              <Route path="deletebus" element={<DeleteBus />} />
+              <Route path="users" element={<Users />} />
             </Route>
           </Route>
           <Route path="/*" element={<Page404 />} />

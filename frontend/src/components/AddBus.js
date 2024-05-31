@@ -1,19 +1,26 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-
+import { useDispatch } from 'react-redux'
+import { notifyError, notifySuccess } from '../redux/slice'
+import { ToastContainer } from 'react-toastify'
 const AddBus = () => {
 
   const navigate = useNavigate();
-  const [start, setStart] = useState('')
-  const [id, setId] = useState()
-  const [end, setEnd] = useState('')
-  const [date, setDate] = useState('')
-  const [agency, setAgency] = useState('')
-  const [startTime, setStartTime] = useState('')
-  const [endTime, setEndTime] = useState('')
-  const [travelHrs, setTravelHrs] = useState()
-  const [ticketPrice, setTicketPrice] = useState()
+  const dispatch = useDispatch();
+  const [start, setStart] = useState(null)
+  const [id, setId] = useState(null)
+  const [end, setEnd] = useState(null)
+  const [date, setDate] = useState(null)
+  const [agency, setAgency] = useState(null)
+  const [startTime, setStartTime] = useState(null)
+  const [endTime, setEndTime] = useState(null)
+  const [travelHrs, setTravelHrs] = useState(null)
+  const [ticketPrice, setTicketPrice] = useState(null)
+  const [startLat, setStartLat] = useState(0)
+  const [startLng, setStartLng] = useState(0)
+  const [endLat, setEndLat] = useState(0)
+  const [endLng, setEndLng] = useState(0)
 
   const handleStart = (e) => {
     setStart(e.target.value)
@@ -42,29 +49,56 @@ const AddBus = () => {
   const handleDate = (e) => {
     setDate(e.target.value)
   }
+  const handleStartLat = (e) => {
+    setStartLat(e.target.value)
+  }
+  const handleStartLng = (e) => {
+    setStartLng(e.target.value)
+  }
+  const handleEndLat = (e) => {
+    setEndLat(e.target.value)
+  }
+  const handleEndLng = (e) => {
+    setEndLng(e.target.value)
+  }
 
-  const handleAdd = async() =>{
-    try{
-      const response = await axios.post('http://localhost:5001/admin/add',{
-        busName : agency,
-        start,
-        end,
-        startTime,
-        endTime,
-        travelHrs,
-        ticketPrice,
-        id,
-        type : 'seater',
-        date,
-        availableSeats: new Array(32).fill(0)
-      })
+  const handleAdd = async () => {
 
-      if(response.data.msg){
-        navigate('/', {replace:true})
-        console.log("added successfully")
+    if(agency && endLng && endLat && startLng && startLat && ticketPrice && travelHrs && endTime && startTime && date && end && start && id){
+      try {
+        const response = await axios.post('http://localhost:5001/admin/add', {
+          busName: agency,
+          start,
+          end,
+          startTime: Number(startTime),
+          endTime: Number(endTime),
+          travelHrs,
+          ticketPrice,
+          id,
+          type: 'seater',
+          date: new Date(date),
+          startCo: {
+            lat: Number(startLat),
+            lng: Number(startLng)
+          },
+          endCo: {
+            lat: Number(endLat),
+            lng: Number(endLng)
+          },
+          availableSeats: new Array(32).fill(0)
+        })
+  
+        if (response.data.msg) {
+          dispatch(notifySuccess("added successfully"))
+          navigate('/', { replace: true })
+        }
+        else
+          dispatch(notifyError("Error Occured"))
+      } catch (err) {
+        dispatch(notifyError('Error'))
       }
-    }catch(err){
-      console.log(err)
+    }else{
+      dispatch(notifyError('All Fields are Required !'))
     }
   }
   return (
@@ -78,7 +112,7 @@ const AddBus = () => {
           </div>
           <div className='flex justify-start flex-1'>
             <label htmlFor="id" className='font-medium w-56'>ID</label>
-            <input type="number" value={id} name='id' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleId} />
+            <input type="number" required={true} value={id} name='id' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleId} />
           </div>
         </div>
         <div className='flex flex-col md:flex-row gap-4 w-full justify-between'>
@@ -114,20 +148,40 @@ const AddBus = () => {
         <div className='flex flex-col md:flex-row gap-4 w-full justify-between'>
           <div className='flex justify-start flex-1'>
             <label htmlFor="ticketPrice" className='font-medium w-56'>Ticket Price</label>
-            <input type="number" value={ticketPrice} name='travelHrs' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleTicketPrice} />
+            <input type="number" value={ticketPrice} name='ticketPrice' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleTicketPrice} />
           </div>
           <div className='flex justify-start flex-1'>
-            <label htmlFor="ticketPrice" className='font-medium w-56'>Date</label>
-            <input type="date" value={date} name='travelHrs' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleDate} />
+            <label htmlFor="date" className='font-medium w-56'>Date</label>
+            <input type="date" value={date} name='date' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleDate} />
+          </div>
+        </div>
+        <div className='flex flex-col md:flex-row gap-4 w-full justify-between'>
+          <div className='flex justify-start flex-1'>
+            <label htmlFor="startLat" className='font-medium w-56'>Start Lat</label>
+            <input type="number" value={startLat} name='startLat' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleStartLat} />
+          </div>
+          <div className='flex justify-start flex-1'>
+            <label htmlFor="startLng" className='font-medium w-56'>Start Lng</label>
+            <input type="number" value={startLng} name='startLng' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleStartLng} />
+          </div>
+        </div>
+        <div className='flex flex-col md:flex-row gap-4 w-full justify-between'>
+          <div className='flex justify-start flex-1'>
+            <label htmlFor="endLat" className='font-medium w-56'>End Lat</label>
+            <input type="number" value={endLat} name='endLat' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleEndLat} />
+          </div>
+          <div className='flex justify-start flex-1'>
+            <label htmlFor="endLng" className='font-medium w-56'>End Lng</label>
+            <input type="number" value={endLng} name='endLng' className='focus:outline-none bg-transparent border border-b-1 border-b-black border-transparent w-full' onChange={handleEndLng} />
           </div>
         </div>
       </form>
 
       <div className='flex gap-4'>
         <button className='px-8 py-2 text-white font-medium rounded-md bg-blue-600 hover:bg-blue-700' onClick={handleAdd}>Add</button>
-        <button className='px-8 py-2 text-white font-medium rounded-md bg-gray-600 hover:bg-gray-700' onClick={() =>navigate(-1)}>Back</button>
+        <button className='px-8 py-2 text-white font-medium rounded-md bg-gray-600 hover:bg-gray-700' onClick={() => navigate(-1)}>Back</button>
       </div>
-
+    <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

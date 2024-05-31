@@ -1,69 +1,152 @@
 const { ObjectId } = require("mongodb");
-const { getDb } = require("../db");
-var nodemailer = require('nodemailer');
+const Bus = require("../models/BusModel");
+const User = require("../models/UserModel");
+const History = require("../models/HistoryModel");
+const nodemailer = require('nodemailer');
 
 const getAllBus = async (req, res) => {
-    const db = getDb();
     try {
-        const buses = await db.collection('busDetails').find().toArray();
-        res.json({ array: buses });
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        const filteredBuses = buses.filter(bus => {
+            if (new Date(bus.date).toDateString() === currentDate.toDateString()) {
+                return bus.startTime > new Date().getHours();
+            } else {
+                return true;
+            }
+        });
+        res.json({ array: filteredBuses });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ err: "Error fetching bus details" });
     }
-}
+};
+
+const getHistory = async (req, res) => {
+    const username = req.params.username;
+    try {
+        const response = await History.find({ username }).sort({ createdAt: -1 });
+        res.json({ response });
+    } catch (err) {
+        res.json({ err: 'Error in Getting History' });
+    }
+};
 
 const getSingleBus = async (req, res) => {
-    const db = getDb();
     const id = req.params.id;
 
     if (ObjectId.isValid(id)) {
         try {
-            const busDetails = await db.collection('busDetails').findOne({ _id: new ObjectId(id) });
+            const busDetails = await Bus.findById(id);
             if (busDetails) {
                 res.json(busDetails);
             } else {
                 res.status(404).json({ error: 'Bus not found' });
             }
         } catch (error) {
-            console.error("Error:", error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    } else {
+        res.json({ err: 'Not a valid ID' });
     }
-    else {
-        res.json({ err: 'Not a valid ID' })
-    }
-}
+};
 
 const getAvailableSeats = async (req, res) => {
-    const db = getDb();
     const id = req.params.id;
 
     if (ObjectId.isValid(id)) {
         try {
-            const data = await db.collection('busDetails').findOne({ _id: new ObjectId(id) });
-            if (data)
-                res.json(data)
+            const data = await Bus.findById(id);
+            if (data) res.json(data);
         } catch (err) {
-            res.json({ err });
+            res.json({ err: 'Error' });
+        }
+    } else {
+        res.json({ err: 'Not a valid ID' });
+    }
+};
+
+const booking = async (req, res) => {
+    if (ObjectId.isValid(req.params.id)) {
+        try {
+            const bus = await Bus.findById(req.params.id);
+            const oldList = bus.availableSeats;
+            const newList = req.body.list.map((seat, index) => seat ? 1 : oldList[index]);
+
+            bus.availableSeats = newList;
+            await bus.save();
+
+            const newHistory = new History({
+                username: req.params.user,
+                busId: req.params.id,
+                bus,
+                choosenSeats: req.body.list,
+                cancelled: false,
+                count: req.body.countSelectedSeats,
+                total: req.body.total,
+                createdAt: new Date()
+            });
+
+            await newHistory.save();
+            
+            const trueIndices = req.body.list.map((seat, index) => seat ? index : null).filter(index => index !== null);
+            const user = await User.findOne({ username: req.params.user });
+            let email = user.email;
+
+            const html = `
+                <h1>Booking Details</h1>
+                <p><strong>Booked for:</strong> ${bus.date}</p>
+                <p><strong>Username:</strong> ${req.params.user}</p>
+                <p><strong>Booking ID:</strong> ${newHistory._id}</p>
+                <h3><strong>Bus Details:</strong></h3>
+                <p><strong>Bus Name:</strong>${bus.busName}</p>
+                <p><strong>From:</strong>${bus.start}</p>
+                <p><strong>To:</strong>${bus.end}</p>
+                <p><strong>Starting Time:</strong>${bus.startTime}</p>
+                <p><strong>Chosen Seats:</strong> ${JSON.stringify(trueIndices)}</p>
+                <p><strong>Number of Tickets:</strong> ${JSON.stringify(req.body.countSelectedSeats)}</p>
+                <p><strong>Total:</strong> ${JSON.stringify(req.body.total)}</p>
+                <p><strong>Booked At:</strong> ${new Date()}</p>`;
+                
+            const sub = 'Ticket Confirmation';
+            sendMail(html, email, sub);
+            res.json({ msg: 'Booking Confirmed' });
+
+        } catch (err) {
+            console.log(err)
+            res.json({ err: 'Error' });
         }
     }
-    else {
-        res.json({ msg: 'not a valid ID' })
+};
+
+const updateSeats = async (req, res) => {
+    const id = req.params.id;
+    if (ObjectId.isValid(id)) {
+        try {
+            const response = await Bus.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: { availableSeats: req.body.list } }
+            );
+            res.json(response);
+        } catch (err) {
+            res.json({ err: 'Error' });
+        }
+    } else {
+        res.json({ err: 'Not a valid ID' });
     }
-}
+};
 
 const cancelTicket = async (req, res) => {
-    const db = getDb();
     const createdAt = new Date(req.body.createdAt);
     const currentTime = new Date();
     const startDate = new Date(req.body.bus.date);
     const timeDifferenceInHours = (currentTime - createdAt) / (1000 * 60 * 60);
-    const check = (startDate - currentTime) / (1000 * 60 * 60)
+    const check = (startDate - currentTime) / (1000 * 60 * 60);
 
     if (check < 1) {
-        res.json({ err: 'You Cannot Cancel Ticket Anymore' })
-    }
-    else {
+        res.json({ err: 'You Cannot Cancel Ticket Anymore' });
+    } else {
         let penalty;
         if (timeDifferenceInHours < 24) 
             penalty = ((5 / 100) * req.body.bus.ticketPrice) * req.body.count;
@@ -73,115 +156,45 @@ const cancelTicket = async (req, res) => {
         penalty = parseFloat(penalty.toFixed(2));
 
         try {
-            const bus = await db.collection('busDetails').findOne({ _id: new ObjectId(req.body.busId) })
+            const bus = await Bus.findById(req.body.busId);
 
             if (bus) {
                 const list = bus.availableSeats.map((seat, index) => {
                     return req.body.choosenSeats[index] ? 0 : seat;
                 });
-                const response = await db.collection('busDetails').updateOne(
+
+                await Bus.updateOne(
                     { _id: new ObjectId(req.body.busId) },
                     { $set: { availableSeats: list } }
-                )
-                if (response.modifiedCount === 1) {
-                    res.json({ msg: "success", penalty })
-                    const response = await db.collection('History').updateOne(
-                        { _id: new ObjectId(req.body._id) },
-                        { $set: { cancelled: true } }
-                    )
-                } else {
-                    res.json({ err: 'Error Occured While Cancelling' })
-                }
-            }
-        } catch (err) {
-            res.json({ err })
-        }
-    }
+                );
 
-}
+                await History.updateOne(
+                    { _id: new ObjectId(req.body._id) },
+                    { $set: { cancelled: true } }
+                );
 
-const booking = async (req, res) => {
-    const db = getDb();
-    if (ObjectId.isValid(req.params.id)) {
-        try {
-            const bus = await db.collection('busDetails').findOne({ _id: new ObjectId(req.params.id) })
-
-            const oldList = bus.availableSeats;
-            const newList = req.body.list.map((seat, index) => seat ? 1 : oldList[index]);
-
-            const result = await db.collection('busDetails').updateOne(
-                { _id: new ObjectId(req.params.id) },
-                { $set: { availableSeats: newList } }
-            )
-            if (result.modifiedCount === 1) {
-                const result = await db.collection('History').insertOne({
-                    username: req.params.user,
-                    busId: req.params.id,
-                    bus,
-                    choosenSeats: req.body.list,
-                    cancelled: false,
-                    count: req.body.countSelectedSeats,
-                    total: req.body.total,
-                    createdAt: new Date()
-                })
-                const trueIndices = req.body.list.map((seat, index) => seat ? index : null).filter(index => index !== null);
-                const user = await db.collection('users').findOne({ username: req.params.user });
-                let email;
-                if (user) {
-                    email = user.email
-                }
+                const user = await User.findOne({username : req.body.username});
                 const html = `
-                    <h1>Booking Details</h1>
+                    <h1 style="color: red;">Cancelled Ticket</h1>
                     <p><strong>Booked for:</strong> ${bus.date}</p>
-                    <p><strong>Username:</strong> ${req.params.user}</p>
-                    <p><strong>Booking ID:</strong>${result.insertedId}</p>
                     <h3><strong>Bus Details:</strong></h3>
                     <p><strong>Bus Name:</strong>${bus.busName}</p>
                     <p><strong>From:</strong>${bus.start}</p>
                     <p><strong>To:</strong>${bus.end}</p>
                     <p><strong>Starting Time:</strong>${bus.startTime}</p>
-                    <p><strong>Chosen Seats:</strong> ${JSON.stringify(trueIndices)}</p>
-                    <p><strong>Number of Tickets:</strong> ${JSON.stringify(req.body.countSelectedSeats)}</p>
-                    <p><strong>Total:</strong> ${JSON.stringify(req.body.total)}</p>
-                    <p><strong>Booked At:</strong> ${new Date()}</p>`
-                
-                sendMail(html, email);
-                res.json({ msg: 'booking Confirmed' })
+                    <p><strong>Cancelled At:</strong> ${new Date()}</p>`;
+
+                const sub = 'Ticket Cancellation';
+                sendMail(html, user.email, sub);
+                res.json({ msg: "success", penalty });
             }
-            else {
-                res.json({ err: 'Error occured while Booking' })
-            }
-
         } catch (err) {
-            res.json({ err })
+            res.json({ err: 'Error' });
         }
-
     }
-}
+};
 
-const updateSeats =  async (req, res) => {
-    const db = getDb();
-    const id = req.params.id;
-    console.log('hi')
-    if (ObjectId.isValid(id)) {
-        try {
-            const response = await db.collection('busDetails').updateOne(
-                { _id: new ObjectId(id) },
-                { $set: { availableSeats: req.body.list } }
-            )
-
-            console.log(response)
-        } catch (err) {
-            res.json({ err })
-        }
-    } else {
-        res.json({ err: 'not a valid id' })
-    }
-}
-
-
-function sendMail(html, email) {
-
+function sendMail(html, email, sub) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -193,7 +206,7 @@ function sendMail(html, email) {
     var mailOptions = {
         from: 'redbus.ticketconfirmation@gmail.com',
         to: email,
-        subject: 'Ticket Confirmation',
+        subject: sub,
         html
     };
 
@@ -212,5 +225,7 @@ module.exports = {
     getAvailableSeats,
     booking,
     updateSeats,
+    getHistory,
     cancelTicket
-}
+};
+

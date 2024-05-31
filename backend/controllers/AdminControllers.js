@@ -1,117 +1,113 @@
 const { ObjectId } = require("mongodb");
-const { getDb } = require("../db");
+const Bus = require("../models/BusModel");
+const History = require("../models/HistoryModel");
+const User = require("../models/UserModel");
 
-const getHistory = async (req, res) => {
-    const db = getDb();
+const allBus = async (req, res) => {
     try {
-        const response = await db.collection('History').find().sort({ createdAt: -1 }).toArray();
-        res.json({ response })
+        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        res.json({ array: buses });
     } catch (err) {
-        res.json({ err: 'Error in Getting History' })
+        res.status(500).json({ err: "Error fetching bus details" });
     }
-}
+};
+
+const getAllHistory = async (req, res) => {
+    try {
+        const response = await History.find().sort({ createdAt: -1 });
+        res.json({ response });
+    } catch (err) {
+        res.json({ err: 'Error in Getting History' });
+    }
+};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const response = await User.find();
+        res.json({ response });
+    } catch (err) {
+        res.json({ err: 'Error in Getting Users' });
+    }
+};
+
+const deleteUser = async (req, res) =>{
+    try {
+        const response = await User.deleteOne({ _id : req.params.id });
+        if (response.deletedCount === 1)
+            res.json({ msg: 'Success' });
+        else
+            res.json({ err: 'Error occurred' });
+    } catch(err){
+        res.json({ err : 'Error' });
+    }
+};
 
 const deleteHistory = async (req, res) => {
-    const db = getDb();
-
-    if (ObjectId.isValid(req.params.id)) {
-        try {
-            const response = await db.collection('History').deleteOne(
-                { _id: new ObjectId(req.params.id) })
-            console.log(response)
-            if (response.deletedCount === 1)
-                res.json({ msg: 'success' })
-            else
-                res.json({ err: 'error' })
-        } catch (err) {
-            res.json({ err })
-        }
+    try {
+        const response = await History.deleteOne({ _id: req.params.id });
+        if (response.deletedCount === 1)
+            res.json({ msg: 'Success' });
+        else
+            res.json({ err: 'Error occurred' });
+    } catch (err) {
+        res.json({ err : 'Error' });
     }
-    else {
-        res.json({ err: 'invalid id' })
-    }
-}
+};
 
 const deleteAllHistory = async (req, res) => {
-    const db = getDb();
     try {
-        const response = await db.collection('History').deleteMany({});
-
+        const response = await History.deleteMany({});
         if (response.deletedCount)
-            res.json({ msg: 'success' })
+            res.json({ msg: 'Success' });
         else
-            res.json({ err: 'Error in Deleteing History' })
+            res.json({ err: 'Error in Deleting History' });
     } catch (err) {
-        res.json({ err })
+        res.json({ err : 'Error' });
     }
-}
+};
 
 const addBus = async (req, res) => {
-    const db = getDb();
     try {
-        const response = await db.collection('busDetails').insertOne(req.body);
-
-        if (response.insertedId)
-            res.json({ msg: 'inserted Successfully' })
-
+        const newBus = new Bus(req.body);
+        await newBus.save();
+        res.json({ msg: 'Inserted Successfully' });
     } catch (err) {
-        console.log(err)
+        res.json({ err: 'Error' });
     }
-}
+};
 
 const updateBus = async (req, res) => {
-    const db = getDb();
-    const id = req.params.id;
-
-    if (ObjectId.isValid(id)) {
-        try {
-            const response = await db.collection('busDetails').updateOne(
-                { _id: new ObjectId(id) },
-                { $set: req.body }
-            )
-            console.log(response)
-            if (response.modifiedCount === 1)
-                res.json({ msg: "success" })
-            else
-                res.json({ err: "not a valid id" })
-        } catch (err) {
-            console.log(err)
-            res.json({ err })
-        }
+    try {
+        const response = await Bus.updateOne({ _id: req.params.id }, { $set: req.body });
+        if (response.modifiedCount === 1)
+            res.json({ msg: 'Success' });
+        else
+            res.json({ err: 'Not a valid ID' });
+    } catch (err) {
+        res.json({ err : 'Error' });
     }
-    else {
-        res.json({ msg: 'not a valid ID' })
-    }
-}
+};
 
 const deleteBus = async (req, res) => {
-    const db = getDb();
-    const id = req.params.id;
-
-    if (ObjectId.isValid(id)) {
-        try {
-            const response = await db.collection('busDetails').deleteOne(
-                { _id: new ObjectId(id) }
-            )
-            console.log(response)
-            if (response.deletedCount === 1)
-                res.json({ msg: 'success' })
-            else
-                res.json({ err: 'error occured' })
-        } catch (err) {
-            console.log(err)
-        }
+    try {
+        const response = await Bus.deleteOne({ _id: req.params.id });
+        if (response.deletedCount === 1)
+            res.json({ msg: 'Success' });
+        else
+            res.json({ err: 'Error occurred' });
+    } catch (err) {
+        res.json({ err : 'Error' });
     }
-    else {
-        res.json({ err: 'not a valid ID' })
-    }
-}
+};
 
 module.exports = {
-    getHistory,
+    allBus,
+    getAllHistory,
+    getAllUsers,
+    deleteUser,
     deleteHistory,
     deleteAllHistory,
     addBus,
     updateBus,
     deleteBus
-}
+};

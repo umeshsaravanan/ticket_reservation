@@ -13,6 +13,7 @@ export const Slice = createSlice({
         profile: profile,
         availableSeats: null,
         selectedSeats: null,
+        mapVisible : false,
         admin : sessionStorage.getItem('role') === '2003'
     },
     reducers:{
@@ -29,6 +30,9 @@ export const Slice = createSlice({
         },
         toggleProfile: (state) => {
             state.profileVisible = !state.profileVisible
+        },
+        toggleMap : state =>{
+            state.mapVisible = !state.mapVisible;
         },
         setAvailableSeats: (state,action) =>{
             state.availableSeats = action.payload
@@ -48,11 +52,13 @@ export const Slice = createSlice({
     }
 })
 
-export const {toggleProfile, setUserName, setAvailableSeats, setSelectedSeats, setUserEmail, setUserRole, notifySuccess, notifyWarning, notifyError} = Slice.actions
+export const {toggleProfile, setUserName, setAvailableSeats, setSelectedSeats, setUserEmail,toggleMap, setUserRole, notifySuccess, notifyWarning, notifyError} = Slice.actions
 
 export const fetchData = (id) => async (dispatch) => {
     try {
         const response = await axios.get(`http://localhost:5001/availableseats/${id}`);
+        if(response.data.err)
+            dispatch(notifyError('Error'))
         dispatch(setAvailableSeats(response.data.availableSeats));
         dispatch(setSelectedSeats(response.data.availableSeats.map(seat => seat.selected)));
     } catch (err) {

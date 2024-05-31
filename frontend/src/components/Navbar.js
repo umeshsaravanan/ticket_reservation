@@ -41,9 +41,9 @@ const Navbar = () => {
                     <Link to='/'><h1 className='font-bold text-2xl cursor-pointer'>RedBus</h1></Link>
                 </div>
                 <div className='flex gap-2 items-center'>
-                    {role ? ( <Link to='/admin' className='text-lg mx-2 font-bold hover:text-red-500 duration-200'> <IonIcon icon={home} className='text-sm' /> Home</Link>) : null}
+                    {role ? ( <Link to='/dashboard' className='text-lg mx-2 font-bold hover:text-red-500 duration-200'> <IonIcon icon={home} className='text-sm' /> Home</Link>) : null}
                     <p className='hidden sm:block'>{redux.username ? redux.username : 'Guest'}</p>
-                    <img srcSet={profile} alt="profile" ref={profileRef} className='w-8 h-8 object-fit rounded-full cursor-pointer' onClick={() => dispatch(toggleProfile())} />
+                    <img srcSet={profile} alt="profile" ref={profileRef} className='w-8 h-8 object-fit rounded-full cursor-pointer border border-1 border-[#ef4444]' onClick={() => dispatch(toggleProfile())} />
                 </div>
             </div>
             {redux.profileVisible ? <div ref={cardRef}><ProfileCard /></div> : null}

@@ -33,7 +33,7 @@ const Login = () => {
                 sessionStorage.setItem('role',res.data.role || null)
                 dispatch(setUserRole(sessionStorage.getItem('role')))
                 dispatch(setUserEmail(res.data.email))
-                navigate(from , {replace: true})
+                res.data.role ? navigate('/dashboard', { replace : true}) : navigate(from , {replace: true})
             }
             else
                 dispatch(notifyError(res.data.err))

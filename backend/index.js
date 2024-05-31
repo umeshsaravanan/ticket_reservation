@@ -3,8 +3,8 @@ const cors = require('cors');
 const { connectToDb, getDb } = require('./db')
 const bodyParser = require('body-parser');
 const { register, login } = require('./controllers/AuthControllers');
-const { getAllBus, getSingleBus, getAvailableSeats, cancelTicket, updateSeats, booking } = require('./controllers/UserControllers');
-const { getHistory, deleteHistory, deleteAllHistory, addBus, updateBus, deleteBus } = require('./controllers/AdminControllers');
+const { getAllBus, getSingleBus, getAvailableSeats, cancelTicket, updateSeats, booking, getHistory } = require('./controllers/UserControllers');
+const { getAllHistory, deleteHistory, deleteAllHistory, addBus, updateBus, deleteBus, getAllUsers, deleteUser, allBus } = require('./controllers/AdminControllers');
 require('dotenv').config()
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +29,7 @@ app.post('/login', login);
 
 
 app.get('/', getAllBus);
+app.get('/gethistory/:username', getHistory);
 app.get('/:id', getSingleBus);
 app.get('/availableseats/:id', getAvailableSeats)
 app.post('/:id/:user/confirmticket', booking)
@@ -36,7 +37,10 @@ app.put('/:id/updateseats', updateSeats)
 app.post('/cancel', cancelTicket)
 
 
-app.get('/admin/gethistory', getHistory)
+app.get('/admin/allbus', allBus)
+app.get('/admin/gethistory', getAllHistory)
+app.get('/admin/getusers', getAllUsers)
+app.delete('/admin/deleteuser/:id', deleteUser)
 app.delete('/admin/deleteHistory/:id', deleteHistory)
 app.delete('/admin/deleteall', deleteAllHistory)
 app.post('/admin/add', addBus)

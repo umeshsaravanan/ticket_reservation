@@ -1,14 +1,12 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import BookedDetails from '../components/BookedDetails'
+import AllHistory from '../components/AllHistory'
 
 const History = () => {
   return (
-    <div>
+    <div className='h-screen bg-slate-300 max-w-screen-xl'>
       <Navbar />
-      <BookedDetails />
-      <Footer />
+      <AllHistory />
     </div>
   )
 }

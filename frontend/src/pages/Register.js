@@ -67,7 +67,7 @@ const Register = () => {
               dispatch(notifyError(res.data.err))
         })
         }catch(err){
-          dispatch(notifyError(err))
+          dispatch(notifyError('Error Occured'))
         }
     }
   return (

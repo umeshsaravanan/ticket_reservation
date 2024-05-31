@@ -1,56 +1,54 @@
-const { getDb } = require("../db");
 const bcrypt = require('bcrypt');
+const User = require("../models/UserModel");
 
-const register =  async (req, res) => {
-    const db = getDb();
+const register = async (req, res) => {
     try {
-        const duplicate = await db.collection('users').findOne({ username: req.body.username });
-        if (duplicate)
-            res.json({ err: "Username Already Exixts :(" })
-        else {
+        const duplicate = await User.findOne({ $or: [
+            { username: req.body.username },
+            { email: req.body.email }
+        ]});
+        if (duplicate){
+            if (duplicate.username === req.body.username)
+                return res.json({ err: "Username Already Exists :(" });
+            else
+                return res.json({ err: "Email Already Exists :(" });
+        } else {
             try {
-                const newUser = {
+                const hashedPassword = await bcrypt.hash(req.body.pwd, 10);
+                const newUser = new User({
                     username: req.body.username,
                     email: req.body.email,
-                    password: await bcrypt.hash(req.body.pwd, 10)
-                };
-                db.collection('users').insertOne(newUser).then(response => {
-                    res.json({ msg: true });
-                }).catch(err => {
-                    res.json({ err });
-                })
+                    pwd: hashedPassword
+                });
+                await newUser.save();
+                return res.json({ msg: true });
             } catch (err) {
-                res.json({ err })
+                return res.json({ err: 'Error' });
             }
         }
     } catch (err) {
-        res.json({ err })
+        console.log(err)
+        return res.json({ err: 'Error' });
     }
 }
 
 const login = async (req, res) => {
-    const db = getDb();
-    const user = await db.collection('users').findOne({ username: req.body.username });
-
-    if (!user) {
-        return res.json({ err: 'Username doesn`t exist' });
-    }
-    else {
-        try {
-            const match = await bcrypt.compare(req.body.pwd, user.password);
-
+    try {
+        const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.json({ err: 'Username doesn\'t exist' });
+        } else {
+            const match = await bcrypt.compare(req.body.pwd, user.pwd);
             if (match) {
                 return res.json({ msg: true, role: user.role, email: user.email });
             } else {
-                return res.json({ err: 'Username / password doesn`t match' });
+                return res.json({ err: 'Username / password doesn\'t match' });
             }
-        } catch (error) {
-            return res.json({ err: error });
         }
+    } catch (error) {
+        return res.json({ err: 'Error' });
     }
-
 }
-
 
 module.exports = {
     register,
