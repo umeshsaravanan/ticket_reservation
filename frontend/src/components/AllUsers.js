@@ -16,7 +16,7 @@ const AllUsers = () => {
     useEffect(() => {
         async function getAllUsers() {
             try {
-                const response = await axios.get('http://localhost:5001/admin/getusers');
+                const response = await axios.get(`${process.env.BASE_URI}/admin/getusers`);
                 if (response.data.err) {
                     dispatch(notifyError('Error in getting Users'));
                 } else {

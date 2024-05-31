@@ -66,7 +66,7 @@ const AddBus = () => {
 
     if(agency && endLng && endLat && startLng && startLat && ticketPrice && travelHrs && endTime && startTime && date && end && start && id){
       try {
-        const response = await axios.post('http://localhost:5001/admin/add', {
+        const response = await axios.post(`${process.env.BASE_URI}/admin/add`, {
           busName: agency,
           start,
           end,

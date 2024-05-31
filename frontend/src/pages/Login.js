@@ -24,7 +24,7 @@ const Login = () => {
     const handleLogin = async (e) =>{
         e.preventDefault();
 
-        await axios.post('http://localhost:5001/login',{
+        await axios.post(`${process.env.BASE_URI}/login`,{
             username,
             pwd
         }).then(res =>{

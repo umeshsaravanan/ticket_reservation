@@ -19,9 +19,9 @@ const BusDetails = () => {
             try {
                 let response;
                 if(admin)
-                    response = await axios.get('http://localhost:5001/admin/allbus')
+                    response = await axios.get(`${process.env.BASE_URI}/admin/allbus`)
                 else
-                    response = await axios.get('http://localhost:5001/');
+                    response = await axios.get(`${process.env.BASE_URI}/`);
 
                 if (response.data.array)
                     setBuses(response.data.array);

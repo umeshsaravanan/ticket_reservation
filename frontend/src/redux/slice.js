@@ -56,7 +56,7 @@ export const {toggleProfile, setUserName, setAvailableSeats, setSelectedSeats, s
 
 export const fetchData = (id) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:5001/availableseats/${id}`);
+        const response = await axios.get(`${process.env.BASE_URI}/availableseats/${id}`);
         if(response.data.err)
             dispatch(notifyError('Error'))
         dispatch(setAvailableSeats(response.data.availableSeats));

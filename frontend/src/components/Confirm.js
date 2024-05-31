@@ -8,7 +8,7 @@ const Confirm = () => {
     useEffect(() => {
         async function getWaitingList() {
             try {
-                const data = await axios.get('http://localhost:5001/admin/getwaitinglist');
+                const data = await axios.get(`${process.env.BASE_URI}/admin/getwaitinglist`);
 
                 setWaitingList(data.data.bus)
                 console.log(waitingList)

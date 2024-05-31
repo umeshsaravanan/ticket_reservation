@@ -17,7 +17,7 @@ const AllHistory = () => {
     useEffect(() => {
         async function getAllHistory() {
             try {
-                const response = await axios.get('http://localhost:5001/admin/gethistory');
+                const response = await axios.get(`${process.env.BASE_URI}/admin/gethistory`);
                 if (response.data.err) {
                     dispatch(notifyError(response.data.err));
                 } else {

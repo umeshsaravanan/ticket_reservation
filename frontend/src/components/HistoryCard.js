@@ -14,7 +14,7 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
 
   const handleHistoryDelete = async() =>{
     try{
-      const response = await axios.delete(`http://localhost:5001/admin/deleteHistory/${history._id}`);
+      const response = await axios.delete(`${process.env.BASE_URI}/admin/deleteHistory/${history._id}`);
       
       if(response.data.msg){
         setHistory(prev => prev.filter(user => user._id !== history._id));  
@@ -31,7 +31,7 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
     const confirm = window.confirm("Cancelling Tickets will results in Penalty deduction!!")
     if(confirm){
       try{
-        const response = await axios.post(`http://localhost:5001/cancel`, history)
+        const response = await axios.post(`${process.env.BASE_URI}/cancel`, history)
         if(response.data.err)
           dispatch(notifyError(response.data.err))
         else{
