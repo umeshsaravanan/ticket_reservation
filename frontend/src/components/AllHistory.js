@@ -56,10 +56,10 @@ const AllHistory = () => {
             </div>
             </div>
             </div>
-            <div className="overflow-x-scroll w-[95%] sm:w-[90%] p-2 sm:p-0 mx-auto h-[80vh] overflow-y-scroll">
+            <div className="overflow-x-scroll w-[95%] sm:w-[90%] p-2 sm:p-0 mx-auto h-[75vh] sm:h-[80vh] overflow-y-scroll">
                 <table className="min-w-full">
                     <thead>
-                        <tr className='bg-gray-900 text-white *:px-4 *:py-2 *:border'>
+                        <tr className='bg-gray-900 text-[14px] text-white *:px-4 *:py-2 *:border'>
                             <th className=' rounded-tl-xl border-none'>Sno</th>
                             <th>Username</th>
                             <th>Booking Id</th>
@@ -75,7 +75,7 @@ const AllHistory = () => {
                     </thead>
                     <tbody>
                         {filterList ? filterList.map((user, index) => (
-                            <tr key={index} className="text-center hover:bg-gray-300 odd:bg-[#fefefe] even:bg-gray-100 *:px-4 *:py-2 *:border">
+                            <tr key={index} className="text-center text-sm hover:bg-gray-300 odd:bg-[#fefefe] even:bg-gray-100 *:px-4 *:py-2 *:border">
                                 <td>{index + 1}</td>
                                 <td>{user.username}</td>
                                 <td>{user._id.substring(0, 6)}</td>
