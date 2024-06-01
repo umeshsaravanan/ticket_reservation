@@ -38,7 +38,7 @@ const Navbar = () => {
             <div className='flex justify-between items-center p-1'>
                 <div className='flex gap-1 items-center poetsen-one-regular'>
                     <IonIcon icon={bus} className='text-2xl text-red-500' />
-                    <Link to='/'><h1 className='font-bold text-2xl cursor-pointer'>RedBus</h1></Link>
+                    <Link to='/'><h1 className='font-bold text-2xl cursor-pointer'>busTop</h1></Link>
                 </div>
                 <div className='flex gap-2 items-center'>
                     {!redux.username && <Link to='/login' className='bg-blue-500 hover:bg-blue-600 p-1 rounded-md text-white'>Sign in</Link>}

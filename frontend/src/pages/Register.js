@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { notifyError, toggleLoading } from '../redux/slice';
 import { ToastContainer } from 'react-toastify';
 import ClipLoader from "react-spinners/ClipLoader";
-
+import backgroundImage from '../images/registerImage.jpeg';
 
 const Register = () => {
 
@@ -75,10 +75,11 @@ const Register = () => {
         dispatch(toggleLoading())
     }
   return (
-    <div className="flex items-center justify-center h-screen bg-slate-300">
+    <div className='bg-cover bg-center h-screen' style={{ backgroundImage : `url(${backgroundImage})`}}>
+      <div className="flex items-center justify-center h-screen">
       <div className="w-[90%] max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div>
-          <h2 className="text-2xl font-bold text-center text-gray-900">Create your account</h2>
+          <h2 className="text-2xl font-bold text-center text-gray-900">Create your <span className='poetsen-one-regular text-red-500'>busTop </span>account</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -147,14 +148,15 @@ const Register = () => {
           <div className="text-center mt-4">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Sign in
-              </a>
+              </Link>
             </p>
           </div>
         </form>
       </div>
       <ToastContainer newestOnTop />
+    </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import AllUsers from '../components/AllUsers'
 
 const Users = () => {
   return (
-    <div>
+    <div className='bg-slate-300 h-screen'>
       <Navbar />
       <AllUsers />
     </div>

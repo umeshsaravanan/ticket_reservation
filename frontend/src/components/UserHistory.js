@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react'
 import HistoryCard from './HistoryCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { notifyError } from '../redux/slice'
+import { IonIcon } from '@ionic/react'
+import { arrowBackCircle } from 'ionicons/icons'
+import { useNavigate } from 'react-router-dom'
 
 const BookedDetails = () => {
   const [history, setHistory] = useState(null)
   const [display, setDisplay] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const redux = useSelector(state => state.slice1)
   const admin = sessionStorage.getItem('role') === '2003';
   const username = sessionStorage.getItem('username');
@@ -39,6 +43,9 @@ const BookedDetails = () => {
   return (
     <div className='max-w-screen-xl'>
       <div className='flex flex-col pt-4'  style={{ height: 'calc(100vh - 56px)' }}>
+        <div className='w-[80%] mx-auto'>
+          <IonIcon icon={arrowBackCircle} className='text-3xl cursor-pointer' onClick={() => navigate(-1)} />
+        </div>
         {
           display ? (
           /* <button className='px-4 py-2 bg-red-500 w-[100px] text-white font-bold rounded-md m-2' onClick={handleDeleteAll}>delete</button> */ null

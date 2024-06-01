@@ -5,12 +5,10 @@ import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
 const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
 
   const dispatch = useDispatch();
   const admin = sessionStorage.getItem('role') === '2003';
-  const navigate = useNavigate();
 
   const handleHistoryDelete = async() =>{
     try{
@@ -63,7 +61,7 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
           <h1 className='flex'>Booked Seats : {history.choosenSeats ? history.choosenSeats.map((seat, index) => (
             <p key={index}>{seat ? (index + 1) + ',' : null}</p>
           )) : null}</h1>
-          <p>Date : {history.bus.date}</p>
+          <p>Date : {history.bus.date.split('T')[0]}</p>
         </div>
         <div className='flex gap-2 flex-col sm:flex-row'>
           <div className={`group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-xl cursor-pointer ${history.cancelled ? 'text-red-500' : 'text-green-500'}`} title='status'>

@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { notifyError, setUserEmail, setUserName, setUserRole, toggleLoading } from '../redux/slice';
 import { ToastContainer } from 'react-toastify';
 import ClipLoader from "react-spinners/ClipLoader";
-
+import backgroundImage from '../images/loginImage.jpg'
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,10 +46,11 @@ const Login = () => {
     }).catch(err => dispatch(notifyError(err)))
   }
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="bg-cover bg-center" style={{backgroundImage : `url(${backgroundImage})`, height: 'full'}}>
+      <div className='flex items-center justify-center h-screen'>
       <div className="w-[90%] max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div>
-          <h2 className="text-2xl font-bold text-center text-gray-900">Sign in to <span className='poetsen-one-regular text-red-500'>RedBus</span></h2>
+          <h2 className="text-2xl font-bold text-center text-gray-900">Sign in to <span className='poetsen-one-regular text-red-500'>busTop</span></h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -95,6 +96,7 @@ const Login = () => {
           </p>
         </form>
 
+      </div>
       </div>
       <ToastContainer newestOnTop />
     </div>

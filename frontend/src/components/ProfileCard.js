@@ -25,7 +25,7 @@ const ProfileCard = () => {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ef4444" d="M0,160L1440,288L1440,0L0,0Z"></path></svg>
             <div className='h-28 rounded-t-lg flex justify-evenly items-end flex-col text-white pb-10'>
                 <IonIcon icon={close} className='w-6 h-6 mr-4 cursor-pointer hover:scale-[1.2] absolute top-2 text-xl' onClick={() => dispatch(toggleProfile())} />
-                <h1 className='text-center text-xl font-medium mr-[110px] poetsen-one-regular'>RedBus</h1>
+                <h1 className='text-center text-xl font-medium mr-[110px] poetsen-one-regular'>busTop</h1>
             </div>
             <div className='flex flex-col items-center justify-center text-white gap-2 relative bottom-10'>
                 <img srcSet={redux.profile} alt='profile' className='w-24 h-24 object-cover rounded-full border-4]' />

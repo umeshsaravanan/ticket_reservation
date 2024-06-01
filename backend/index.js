@@ -6,7 +6,7 @@ const { register, login } = require('./controllers/AuthControllers');
 const { getAllBus, getSingleBus, getAvailableSeats, cancelTicket, updateSeats, booking, getHistory } = require('./controllers/UserControllers');
 const { getAllHistory, deleteHistory, deleteAllHistory, addBus, updateBus, deleteBus, getAllUsers, deleteUser, allBus } = require('./controllers/AdminControllers');
 require('dotenv').config()
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const app = express();
 

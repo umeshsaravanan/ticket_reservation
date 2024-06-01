@@ -177,6 +177,7 @@ const cancelTicket = async (req, res) => {
                 const html = `
                     <h1 style="color: red;">Cancelled Ticket</h1>
                     <p><strong>Booked for:</strong> ${bus.date}</p>
+                    <p><strong>Username:</strong>${user.username}</p>
                     <h3><strong>Bus Details:</strong></h3>
                     <p><strong>Bus Name:</strong>${bus.busName}</p>
                     <p><strong>From:</strong>${bus.start}</p>
@@ -198,13 +199,13 @@ function sendMail(html, email, sub) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'redbus.ticketconfirmation@gmail.com',
-            pass: 'zozp ejty uyms arck'
+            user: 'bustop.ticket@gmail.com',
+            pass: 'mndw uine qxzj sohu'
         }
     });
 
     var mailOptions = {
-        from: 'redbus.ticketconfirmation@gmail.com',
+        from: 'bustop.ticket@gmail.com',
         to: email,
         subject: sub,
         html

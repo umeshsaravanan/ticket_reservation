@@ -13,7 +13,7 @@ module.exports = {
             })
             .catch(err => {
                 console.log('Database connection error:', err)
-                return cd(err)
+                return cb(err);
             });
     },
     getDb: () => database
