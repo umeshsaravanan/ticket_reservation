@@ -121,6 +121,18 @@ const SingleBus = () => {
     }
   }
 
+  const handleEmpty = async ()=>{
+    try{
+      const response = await axios.put(`${process.env.REACT_APP_BASE_URI}/admin/emptyseats/${id}`,{
+        list : new Array(32).fill(0)
+      })
+      if(response.data.msg)
+        dispatch(notifySuccess('Updated to DB'));
+    }catch(err){
+      console.log(err)
+      dispatch(notifyError('Error Occured'))
+    }
+  }
   const handleBack = () => {
     if (admin)
       navigate(-1)
@@ -243,7 +255,7 @@ const SingleBus = () => {
             {
               !admin ?
                 <button className='px-4 py-2 rounded-md text-white hover:bg-blue-600 bg-blue-500' onClick={handleConfirm}>confirm</button> :
-                null
+                <button className='max-h-[40px] px-4 py-2 rounded-md text-white hover:bg-red-600 bg-red-500' onClick={handleEmpty}>Empty Seats</button>
             }
             <button className='px-4 py-2 max-h-[40px] rounded-md text-white hover:bg-yellow-500 bg-yellow-400' onClick={handleBack}>{admin ? 'Back' : 'Home'}</button>
             {

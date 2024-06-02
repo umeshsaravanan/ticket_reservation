@@ -120,23 +120,6 @@ const booking = async (req, res) => {
     }
 };
 
-const updateSeats = async (req, res) => {
-    const id = req.params.id;
-    if (ObjectId.isValid(id)) {
-        try {
-            const response = await Bus.updateOne(
-                { _id: new ObjectId(id) },
-                { $set: { availableSeats: req.body.list } }
-            );
-            res.json(response);
-        } catch (err) {
-            res.json({ err: 'Error' });
-        }
-    } else {
-        res.json({ err: 'Not a valid ID' });
-    }
-};
-
 const cancelTicket = async (req, res) => {
     const createdAt = new Date(req.body.createdAt);
     const currentTime = new Date();
@@ -225,7 +208,6 @@ module.exports = {
     getSingleBus,
     getAvailableSeats,
     booking,
-    updateSeats,
     getHistory,
     cancelTicket
 };

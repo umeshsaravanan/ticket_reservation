@@ -76,6 +76,26 @@ const addBus = async (req, res) => {
     }
 };
 
+const emptySeats = async (req, res) => {
+    const id = req.params.id;
+    if (ObjectId.isValid(id)) {
+        try {
+            const response = await Bus.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: { availableSeats: req.body.list } }
+            );
+            if(matchedCount === 1)
+                res.json({msg : true});
+            else
+                res.json({msg : false})
+        } catch (err) {
+            res.json({ err: 'Error' });
+        }
+    } else {
+        res.json({ err: 'Not a valid ID' });
+    }
+};
+
 const updateBus = async (req, res) => {
     try {
         const response = await Bus.updateOne({ _id: req.params.id }, { $set: req.body });
@@ -104,6 +124,7 @@ module.exports = {
     allBus,
     getAllHistory,
     getAllUsers,
+    emptySeats,
     deleteUser,
     deleteHistory,
     deleteAllHistory,
