@@ -10,10 +10,12 @@ const getAllBus = async (req, res) => {
         currentDate.setHours(0, 0, 0, 0);
         const buses = await Bus.find().sort({ date: 1, startTime: 1 });
         const filteredBuses = buses.filter(bus => {
-            if (new Date(bus.date).toDateString() === currentDate.toDateString()) {
+            if (new Date(bus.date) > currentDate) {
+                return true;
+            } else if(new Date(bus.date) === currentDate) {
                 return bus.startTime > new Date().getHours();
             } else {
-                return true;
+                return false;
             }
         });
         res.json({ array: filteredBuses });
