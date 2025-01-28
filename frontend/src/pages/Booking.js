@@ -7,7 +7,7 @@ const Booking = () => {
     const admin = sessionStorage.getItem('role') === '2003'
 
     return (
-        <div className='max-w-screen-xl bg-slate-300 min-h-screen '>
+        <div className='max-w-screen-xxl bg-slate-300 min-h-screen '>
             <Navbar />
             { !admin ? (
                 <>
@@ -22,7 +22,7 @@ const Booking = () => {
             </div>
                 </>
             ): <h1 className='text-center font-bold mt-4'>Edit Bus Details</h1>}
-            <div className='flex flex-col md:flex-row gap-4 w-[90%] mx-auto max-w-screen-xl pb-4'>
+            <div className='flex flex-col md:flex-row gap-4 w-[90%] mx-auto max-w-screen-xxl pb-4'>
                 { !admin ? <BusSeats /> : null}
                 <SingleBus />
             </div>
