@@ -39,15 +39,17 @@ const Register = () => {
       const value = e.target.value;
       setPwd(value);
       if(confirmpwd)
-        handleMatch(pwd, value);
+        handleMatch(confirmpwd, value);
     }
 
     const handleConfirmpwdChange = (e) =>{
       setError('')
       const value = e.target.value;
       setConfirmpwd(value);
-      handleMatch(pwd, value);
+      if(pwd)
+        handleMatch(pwd, value);
     }
+    
     const handleMatch = (pwd,cpwd) =>{
       if(pwd !== cpwd)
         setError('Both password should match')
