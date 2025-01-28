@@ -4,7 +4,7 @@ import BookedDetails from './UserHistory'
 const CancelTicket = () => {
 
   return (
-    <div className='bg-slate-300 w-full max-w-screen-xl'>
+    <div className='bg-slate-300 w-full max-w-screen-xxl'>
       <BookedDetails />
     </div>
   )

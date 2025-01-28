@@ -41,7 +41,7 @@ const AllHistory = () => {
     }
 
     return (
-        <div className="flex justify-center items-center mt-4 flex-col max-w-screen-xl">
+        <div className="flex justify-center items-center mt-4 flex-col max-w-screen-xxl">
             <div className='flex justify-between w-[95%] sm:w-[90%]'>
             <IonIcon icon={arrowBackCircle} className='text-3xl cursor-pointer' onClick={() => navigate(-1)} />
             <h1 className='text-center font-medium mb-1'>Booking History</h1>

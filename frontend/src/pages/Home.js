@@ -5,7 +5,7 @@ import BusDetails from '../components/BusDetails';
 const Home = () => {
   
   return (
-    <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen'>
+    <div className='bg-slate-300 max-w-screen-xxl max-h-screen h-screen'>
       <Navbar />
       <BusDetails/>
     </div>

@@ -34,7 +34,7 @@ const Navbar = () => {
     }, [redux.profileVisible, dispatch]);
 
     return (
-        <div className='max-w-screen-xl bg-[#fefefe] shadow-md p-2 sticky top-0 z-10'>
+        <div className='max-w-screen-xxl bg-[#fefefe] shadow-md p-2 sticky top-0 z-10'>
             <div className='flex justify-between items-center p-1'>
                 <div className='flex gap-1 items-center poetsen-one-regular'>
                     <IonIcon icon={bus} className='text-2xl text-red-500' />

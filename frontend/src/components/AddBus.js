@@ -103,7 +103,7 @@ const AddBus = () => {
     }
   }
   return (
-    <div className='max-w-screen-xl py-4 bg-slate-300 min-h-screen flex justify-center items-center flex-col gap-8'>
+    <div className='max-w-screen-xxl py-4 bg-slate-300 min-h-screen flex justify-center items-center flex-col gap-8'>
       <h1 className='font-bold text-lg text-center'>Enter Bus Details</h1>
       <form className='w-[80%] h-[80%] flex flex-col gap-8 text-md mx-auto' >
         <div className='flex flex-col md:flex-row gap-4 w-full justify-between'>

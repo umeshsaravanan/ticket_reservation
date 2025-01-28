@@ -37,7 +37,7 @@ const BusCard = ({busDetails, setBuses}) => {
         }
       }
     return (
-        <div className='max-w-screen-xl group cursor-pointer duration-200 md:mx-4'>
+        <div className='max-w-screen-xxl group cursor-pointer duration-200 md:mx-4'>
             <div className={`w-[300px] ${valid ? 'bg-[#fefefe]' : 'bg-gray-300'} flex flex-col p-2 gap-4 rounded-t-md shadow-md mt-6 z-20`} onClick={() =>navigate(`/${busDetails._id}`)}>
                 <div className='flex justify-between'>
                     <div className='flex items-center relative'>

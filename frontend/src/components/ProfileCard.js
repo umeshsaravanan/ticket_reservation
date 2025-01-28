@@ -21,7 +21,7 @@ const ProfileCard = () => {
         navigate('/login', { replace: true })
     }
     return (
-        <div className='max-w-screen-xl bg-gray-900 w-[280px] h-[420px] rounded-lg absolute top-16 right-4 flex flex-col z-30'>
+        <div className='max-w-screen-xxl bg-gray-900 w-[280px] h-[420px] rounded-lg absolute top-16 right-4 flex flex-col z-30'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ef4444" d="M0,160L1440,288L1440,0L0,0Z"></path></svg>
             <div className='h-28 rounded-t-lg flex justify-evenly items-end flex-col text-white pb-10'>
                 <IonIcon icon={close} className='w-6 h-6 mr-4 cursor-pointer hover:scale-[1.2] absolute top-2 text-xl' onClick={() => dispatch(toggleProfile())} />

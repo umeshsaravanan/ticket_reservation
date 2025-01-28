@@ -44,7 +44,7 @@ const AllUsers = () => {
     }
 
     return (
-        <div className="flex justify-center items-center mt-4 flex-col max-w-screen-xl">
+        <div className="flex justify-center items-center mt-4 flex-col max-w-screen-xxl">
             <div className='flex justify-between w-[95%] sm:w-[90%]'>
             <div className='flex-1'>
             <IonIcon icon={arrowBackCircle} className='text-3xl cursor-pointer' onClick={() => navigate(-1)} />

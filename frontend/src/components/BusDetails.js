@@ -35,7 +35,7 @@ const BusDetails = () => {
     }, [dispatch,admin])
 
     return (
-        <div className='max-w-screen-xl flex justify-center items-center w-full'>
+        <div className='max-w-screen-xxl flex justify-center items-center w-full'>
             <div className='md:w-[90%] mx-auto'>
                 {
                     admin ? (

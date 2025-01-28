@@ -41,7 +41,7 @@ const BookedDetails = () => {
   //   }
   // }
   return (
-    <div className='max-w-screen-xl'>
+    <div className='max-w-screen-xxl'>
       <div className='flex flex-col pt-4'  style={{ height: 'calc(100vh - 56px)' }}>
         <div className='w-[80%] mx-auto'>
           <IonIcon icon={arrowBackCircle} className='text-3xl cursor-pointer' onClick={() => navigate(-1)} />

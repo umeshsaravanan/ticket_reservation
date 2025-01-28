@@ -179,7 +179,7 @@ const SingleBus = () => {
   }
 
   return (
-    <div className='max-w-screen-xl bg-[#fefefe] mt-4 p-4 w-full border border-1 border-black rounded-sm min-h-[400px] md:max-h-[400px] shadow-md flex flex-col gap-2'>
+    <div className='max-w-screen-xxl bg-[#fefefe] mt-4 p-4 w-full border border-1 border-black rounded-sm min-h-[400px] md:max-h-[400px] shadow-md flex flex-col gap-2'>
       <div className='flex justify-between'>
         <h1><span className='font-medium'>Agency</span> : {bus.busName}</h1>
         <button className='bg-indigo-600 px-2 py-1 rounded-xl text-white hover:scale-[1] scale-[0.9] duration-200' onClick={() => dispatch(toggleMap())}>Routes</button>
