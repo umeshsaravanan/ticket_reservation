@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const NotFound = ({from}) => {
   return (
-    <div className='flex justify-center items-center flex-col w-full h-[80vh] bg-gray-800 text-center'>
+    <div className='flex justify-center items-center flex-col w-full h-screen bg-gray-800 text-center'>
       <h1 className='text-4xl text-red-500'>{
         from === '/dashboard' ? 'UnAuthorized' : '404'
       }</h1>
