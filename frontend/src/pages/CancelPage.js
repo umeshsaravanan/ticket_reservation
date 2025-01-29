@@ -4,9 +4,11 @@ import Navbar from '../components/Navbar'
 
 const CancelPage = () => {
   return (
-    <div>
+    <div className='bg-slate-300 max-w-screen-xxl max-h-screen h-screen'>
       <Navbar />
-      <CancelTicket />
+      <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen mx-auto'>
+        <CancelTicket />
+      </div>
     </div>
   )
 }

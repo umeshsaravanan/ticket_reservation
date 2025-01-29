@@ -6,7 +6,9 @@ const Users = () => {
   return (
     <div className='bg-slate-300 h-screen'>
       <Navbar />
-      <AllUsers />
+      <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen mx-auto'>
+        <AllUsers />
+      </div>
     </div>
   )
 }

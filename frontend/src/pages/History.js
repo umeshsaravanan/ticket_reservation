@@ -6,7 +6,9 @@ const History = () => {
   return (
     <div className='h-screen bg-slate-300 max-w-screen-xxl'>
       <Navbar />
-      <AllHistory />
+      <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen mx-auto'>
+        <AllHistory />
+      </div>
     </div>
   )
 }
