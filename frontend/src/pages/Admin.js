@@ -6,7 +6,7 @@ const Admin = () => {
   return (
     <div className='min-h-screen  bg-slate-300'>
       <Navbar />
-      <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen mx-auto'>
+      <div className='bg-slate-300 max-w-screen-xl max-h-screen mx-auto'>
         <AdminTasks />  
       </div>
     </div>
