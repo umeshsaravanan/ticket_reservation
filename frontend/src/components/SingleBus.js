@@ -67,6 +67,11 @@ const SingleBus = () => {
   }, [id, dispatch])
 
   const handleConfirm = async () => {
+    if(countSelectedSeats === 0){
+      dispatch(notifyError('Select a Seat'));
+      return;
+    }
+    
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/${id}/${user}/confirmticket`, {
         list,
@@ -249,7 +254,7 @@ const SingleBus = () => {
             )
           }
           <h1 className='flex sm:ml-4'>{list ? list.map((seat, index) => (
-            <p key={index}>{seat ? (index + 1) + ',' : null}</p>
+            <pre key={index}>{seat ? (index + 1) + ' ' : null}</pre>
           )) : null}</h1>
           <div className='flex w-[90%] mx-auto justify-evenly space-x-4 font-medium pt-8'>
             {
