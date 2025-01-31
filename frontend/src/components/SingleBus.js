@@ -281,10 +281,10 @@ const SingleBus = () => {
           </div>
         </div>
       </div>
-      <ToastContainer newestOnTop autoClose={2000} />
       {fromCoordinates && toCoordinates && <Location from={fromCoordinates} to={toCoordinates} />}
       {infoVisible && <Infocard text={'Booking Confirmed'}/>}
       {isLoading && <Loader />}
+      <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

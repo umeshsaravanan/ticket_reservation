@@ -6,24 +6,23 @@ const nodemailer = require('nodemailer');
 
 const getAllBus = async (req, res) => {
     try {
-        const currentDate = new Date();
-        currentDate.setHours(0, 0, 0, 0);
+        const currentDateTime = new Date();
         const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+
         const filteredBuses = buses.filter(bus => {
-            if (currentDate.getDate() > new Date(bus.date).getDate()) {
-                return true;
-            } else if(new Date(bus.date).getDate() === currentDate.getDate()) {
-                return bus.startTime > new Date().getHours();
-            } else {
-                return false;
-            }
+            const busDateTime = new Date(bus.date);
+            busDateTime.setHours(bus.startTime, 0, 0, 0);
+
+            return busDateTime >= currentDateTime;
         });
+
         res.json({ array: filteredBuses });
     } catch (err) {
         console.log(err);
         res.status(500).json({ err: "Error fetching bus details" });
     }
 };
+
 
 const getHistory = async (req, res) => {
     const username = req.params.username;

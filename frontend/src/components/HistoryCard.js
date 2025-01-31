@@ -6,7 +6,7 @@ import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
 import Loader from './Loader'
-const HistoryCard = ({ history=[], setHistory, setDisplay, list }) => {
+const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
 
   const dispatch = useDispatch();
   const admin = sessionStorage.getItem('role') === '2003';
@@ -73,13 +73,13 @@ const HistoryCard = ({ history=[], setHistory, setDisplay, list }) => {
           </div>
           {admin ? (<div className='group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-red-500 text-xl cursor-pointer' onClick={handleHistoryDelete}>
             <IonIcon icon={trash} className='group-hover:scale-[1.1]' />
-          </div>) : (<div className='group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-red-500 text-xl cursor-pointer' onClick={handleCancel}>
+          </div>) : !history.cancelled && (<div className='group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-red-500 text-xl cursor-pointer' onClick={handleCancel}>
             <IonIcon icon={close} className='group-hover:scale-[1.1] duration-200' /><p className='text-sm group-hover:scale-[1.1] duration-200 hidden sm:block'>cancel</p>
           </div>)}
         </div>
       </div>
-      <ToastContainer newestOnTop autoClose={2000} />
       {isLoading && <Loader />}
+      <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

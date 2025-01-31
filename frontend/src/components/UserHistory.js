@@ -29,7 +29,7 @@ const BookedDetails = () => {
       }
     }
     getHistory();
-  }, [dispatch, redux, admin, username])
+  }, [dispatch, redux, admin, username, history])
 
   // const handleDeleteAll = async() =>{
   //   try{
@@ -41,6 +41,7 @@ const BookedDetails = () => {
   //     dispatch(notifyError(err))
   //   }
   // }
+  
   return (
     <div className='max-w-screen-xxl'>
       <div className='flex flex-col pt-4'  style={{ height: 'calc(100vh - 56px)' }}>
@@ -56,7 +57,7 @@ const BookedDetails = () => {
           {
             history ? (
               history.map((data, index) => (
-                admin || !data.cancelled ? <HistoryCard history={data} key={index} setHistory={setHistory} setDisplay={setDisplay} list={history} /> : null
+                <HistoryCard history={data} key={index} setHistory={setHistory} setDisplay={setDisplay} list={history} />
               ))
             ) : <Loader />
           }
