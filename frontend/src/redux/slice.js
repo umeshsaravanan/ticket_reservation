@@ -67,8 +67,10 @@ export const fetchData = (id) => async (dispatch) => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URI}/availableseats/${id}`);
         if(response.data.err)
             dispatch(notifyError('Error'))
-        dispatch(setAvailableSeats(response.data.availableSeats));
-        dispatch(setSelectedSeats(response.data.availableSeats.map(seat => seat.selected)));
+        else{
+            dispatch(setAvailableSeats(response.data.availableSeats));
+            dispatch(setSelectedSeats(response.data.availableSeats.map(seat => seat.selected)));
+        }
     } catch (err) {
         console.log("error in getting seat information: " + err);
     }

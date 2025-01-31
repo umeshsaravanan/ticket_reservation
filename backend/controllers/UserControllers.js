@@ -10,9 +10,9 @@ const getAllBus = async (req, res) => {
         currentDate.setHours(0, 0, 0, 0);
         const buses = await Bus.find().sort({ date: 1, startTime: 1 });
         const filteredBuses = buses.filter(bus => {
-            if (new Date(bus.date) > currentDate) {
+            if (currentDate.getDate() > new Date(bus.date).getDate()) {
                 return true;
-            } else if(new Date(bus.date) === currentDate) {
+            } else if(new Date(bus.date).getDate() === currentDate.getDate()) {
                 return bus.startTime > new Date().getHours();
             } else {
                 return false;

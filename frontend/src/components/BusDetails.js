@@ -7,18 +7,21 @@ import { IonIcon } from '@ionic/react';
 import { add } from 'ionicons/icons';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Loader from './Loader';
 
 const BusDetails = () => {
-    const [buses, setBuses] = useState([]);
+    const [buses, setBuses] = useState(null);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const admin = sessionStorage.getItem('role') === '2003';
-    
+
     useEffect(() => {
         async function fetchData() {
             try {
                 let response;
-                if(admin)
+                if (admin)
                     response = await axios.get(`${process.env.REACT_APP_BASE_URI}/admin/allbus`)
                 else
                     response = await axios.get(`${process.env.REACT_APP_BASE_URI}/`);
@@ -32,7 +35,7 @@ const BusDetails = () => {
             }
         }
         fetchData();
-    }, [dispatch,admin])
+    }, [dispatch, admin])
 
     return (
         <div className='max-w-screen-xxl flex justify-center items-center w-full'>
@@ -45,15 +48,13 @@ const BusDetails = () => {
                     ) : null
                 }
                 <div className='mx-auto'>
-                <div className='flex flex-col sm:flex-row sm:flex-wrap justify-start h-[80vh] overflow-y-scroll pb-4 md:gap-8 md:ml-12'>
-                    {
-                        buses ? (
-                            buses.map((bus, index) => (
+                    <div className='flex flex-col sm:flex-row sm:flex-wrap justify-start h-[80vh] overflow-y-scroll pb-4 md:gap-8 md:ml-12'>
+                        {
+                            buses ? buses.map((bus, index) => (
                                 <BusCard busDetails={bus} setBuses={setBuses} key={index} />
-                            ))
-                        ) : null
-                    }
-                </div>
+                            )) : <Loader/>
+                        }
+                    </div>
                 </div>
             </div>
             <ToastContainer newestOnTop autoClose={2000} />

@@ -19,6 +19,7 @@ module.exports = {
     "./src/components/AllHistory.js",
     "./src/components/AllUsers.js",
     "./src/components/Location.js",
+    "./src/components/Loader.js",
     "./src/pages/Home.js",
     "./src/pages/Login.js",
     "./src/pages/Register.js",

@@ -6,6 +6,7 @@ import { notifyError } from '../redux/slice'
 import { IonIcon } from '@ionic/react'
 import { arrowBackCircle } from 'ionicons/icons'
 import { useNavigate } from 'react-router-dom'
+import Loader from './Loader'
 
 const BookedDetails = () => {
   const [history, setHistory] = useState(null)
@@ -57,7 +58,7 @@ const BookedDetails = () => {
               history.map((data, index) => (
                 admin || !data.cancelled ? <HistoryCard history={data} key={index} setHistory={setHistory} setDisplay={setDisplay} list={history} /> : null
               ))
-            ) : null
+            ) : <Loader />
           }
         </div>
       </div>

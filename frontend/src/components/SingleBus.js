@@ -8,10 +8,12 @@ import { ToastContainer } from 'react-toastify';
 import { notifySuccess, notifyError, notifyWarning, toggleMap, toggleInfo } from '../redux/slice';
 import Location from './Location';
 import Infocard from './InfoCard';
+import Loader from './Loader';
 
 const SingleBus = () => {
 
   const [bus, setBus] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
   const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
   const [date, setDate] = useState('')
@@ -67,6 +69,8 @@ const SingleBus = () => {
   }, [id, dispatch])
 
   const handleConfirm = async () => {
+    setIsLoading(true);
+
     if(countSelectedSeats === 0){
       dispatch(notifyError('Select a Seat'));
       return;
@@ -92,6 +96,7 @@ const SingleBus = () => {
     } catch (err) {
       dispatch(notifyError(err))
     }
+    setIsLoading(false);
   }
 
   const handleSubmit = async () => {
@@ -279,6 +284,7 @@ const SingleBus = () => {
       <ToastContainer newestOnTop autoClose={2000} />
       {fromCoordinates && toCoordinates && <Location from={fromCoordinates} to={toCoordinates} />}
       {infoVisible && <Infocard text={'Booking Confirmed'}/>}
+      {isLoading && <Loader />}
     </div>
   )
 }

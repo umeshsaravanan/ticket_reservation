@@ -1,45 +1,49 @@
 import { IonIcon } from '@ionic/react'
 import { arrowDown, checkmarkDone, close, trash } from 'ionicons/icons'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
-const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
+import Loader from './Loader'
+const HistoryCard = ({ history=[], setHistory, setDisplay, list }) => {
 
   const dispatch = useDispatch();
   const admin = sessionStorage.getItem('role') === '2003';
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleHistoryDelete = async() =>{
-    try{
+  const handleHistoryDelete = async () => {
+    try {
       const response = await axios.delete(`${process.env.REACT_APP_BASE_URI}/admin/deleteHistory/${history._id}`);
-      
-      if(response.data.msg){
-        setHistory(prev => prev.filter(user => user._id !== history._id));  
+
+      if (response.data.msg) {
+        setHistory(prev => prev.filter(user => user._id !== history._id));
         setDisplay(list.length > 0);
       }
       else
         dispatch(notifyError('Error deleting History'))
-    }catch(err){
+    } catch (err) {
       dispatch(notifyError(err))
     }
   }
 
-  const handleCancel = async ()=>{
+  const handleCancel = async () => {
     const confirm = window.confirm("Cancelling Tickets will results in Penalty deduction!!")
-    if(confirm){
-      try{
+    if (confirm) {
+      setIsLoading(true);
+      try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/cancel`, history)
-        if(response.data.err)
+        setIsLoading(false);
+        if (response.data.err)
           dispatch(notifyError(response.data.err))
-        else{
+        else {
           dispatch(notifyWarning('\u20B9' + response.data.penalty + ' Penalty Applied'))
           dispatch(notifySuccess('Tickets Cancelled'))
-          setTimeout(()=>{
-            setHistory(prev => prev.filter(user => user._id !== history._id)); 
-          },2000)
+          setTimeout(() => {
+            setHistory(prev => prev.filter(user => user._id !== history._id));
+          }, 2000)
         }
-      }catch(err){
+      } catch (err) {
         dispatch(notifyError(err))
       }
     }
@@ -74,7 +78,8 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
           </div>)}
         </div>
       </div>
-      <ToastContainer newestOnTop autoClose={2000}/>
+      <ToastContainer newestOnTop autoClose={2000} />
+      {isLoading && <Loader />}
     </div>
   )
 }
