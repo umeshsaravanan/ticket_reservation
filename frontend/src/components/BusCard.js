@@ -12,11 +12,6 @@ const BusCard = ({busDetails, setBuses}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const admin = sessionStorage.getItem('role') === '2003';
-    
-    const busDateTime = new Date(busDetails.date);
-    busDateTime.setHours(busDetails.startTime, 0, 0, 0);
-    const currentDateTime = new Date();
-    const valid = busDateTime >= currentDateTime;
 
     const handleDelete = async () => {
         try {
@@ -38,7 +33,7 @@ const BusCard = ({busDetails, setBuses}) => {
       }
     return (
         <div className='max-w-screen-xxl group cursor-pointer duration-200 md:mx-4'>
-            <div className={`w-[300px] ${valid ? 'bg-[#fefefe]' : 'bg-gray-300'} flex flex-col p-2 gap-4 rounded-t-md shadow-md mt-6 z-20`} onClick={() =>navigate(`/${busDetails._id}`)}>
+            <div className={`w-[300px] bg-[#fefefe] flex flex-col p-2 gap-4 rounded-t-md shadow-md mt-6 z-20`} onClick={() =>navigate(`/${busDetails._id}`)}>
                 <div className='flex justify-between'>
                     <div className='flex items-center relative'>
                         <IonIcon icon={bus} className='absolute group-hover:bottom-4 duration-300 text-red-500'/>

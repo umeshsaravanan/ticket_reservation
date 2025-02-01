@@ -63,7 +63,7 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
             <p>{history.bus.end}</p>
           </div>
           <h1 className='flex'>Booked Seats : {history.choosenSeats ? history.choosenSeats.map((seat, index) => (
-            <p key={index}>{seat ? (index + 1) + ',' : null}</p>
+            <p key={index}>{seat ? (index + 1) + ' ' : null}</p>
           )) : null}</h1>
           <p>Date : {history.bus.date.split('T')[0]}</p>
         </div>

@@ -208,7 +208,7 @@ const SingleBus = () => {
             </div>
             <IonIcon icon={arrowDownOutline} />
             <div className='flex'>
-              <label htmlFor="end" className='font-medium min-w-[120px]'>End</label>
+              <label htmlFor="end" className='font-medium min-w-[120px]'>To</label>
               <input type="text" value={end} name='end' className='focus:outline-none bg-transparent w-full' onChange={handleEnd} disabled={!edit} />
             </div>
             <div className='flex'>
