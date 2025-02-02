@@ -62,7 +62,7 @@ const Location = ({ from, to }) => {
     }, intervalTime);
 
     return () => clearInterval(interval);
-  }, []);
+  });
 
   useEffect(() => {
     function handleClick(event) {
@@ -88,6 +88,7 @@ const Location = ({ from, to }) => {
       document.removeEventListener('click', handleClick);
       document.body.style.overflow = '';
     };
+    // eslint-disable-next-line
   }, [mapVisible]);
 
   return (

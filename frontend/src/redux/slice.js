@@ -43,20 +43,21 @@ export const Slice = createSlice({
             state.infoVisible = !state.infoVisible;
         },
         setAvailableSeats: (state,action) =>{
-            state.availableSeats = action.payload
+            state.availableSeats = action.payload;
         },
         setSelectedSeats: (state, action) =>{
-            state.selectedSeats = action.payload
+            state.selectedSeats = action.payload;
         },
-        notifySuccess: (state,action) =>{
-            toast.success(action.payload)
+        notifySuccess: (state, action) => {
+                toast.success(action.payload);
         },
-        notifyError: (state,action) =>{
-            toast.error(action.payload)
+        notifyError: (state, action) => {
+                toast.error(action.payload);
         },
-        notifyWarning: (state,action) =>{
-            toast.warning(action.payload)
+        notifyWarning: (state, action) => {
+                toast.warning(action.payload);
         }
+        
     }
 })
 

@@ -5,7 +5,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { notifyError, notifySuccess } from '../redux/slice'
-import { ToastContainer } from 'react-toastify'
 
 const BusCard = ({busDetails, setBuses}) => {
 
@@ -63,7 +62,6 @@ const BusCard = ({busDetails, setBuses}) => {
                 ):
                 null
             }
-            <ToastContainer newestOnTop autoClose={2000} />
         </div>
     )
 }

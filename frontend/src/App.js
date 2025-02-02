@@ -13,9 +13,13 @@ import History from "./pages/History";
 import CancelPage from "./pages/CancelPage";
 import Users from "./pages/Users";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer newestOnTop autoClose={2000} />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

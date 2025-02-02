@@ -9,7 +9,7 @@ const Booking = () => {
     return (
         <div className='max-w-screen-xxl bg-slate-300 min-h-screen '>
             <Navbar />
-            <div className='bg-slate-300 max-w-screen-xl max-h-screen h-screen mx-auto'>
+            <div className='bg-slate-300 max-w-screen-xl h-full mx-auto'>
                 {!admin ? (
                     <>
                         <h1 className='text-center font-bold mt-4'>Select your Seats</h1>

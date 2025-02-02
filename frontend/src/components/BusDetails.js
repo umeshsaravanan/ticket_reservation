@@ -6,7 +6,6 @@ import { notifyError } from '../redux/slice';
 import { IonIcon } from '@ionic/react';
 import { add } from 'ionicons/icons';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import Loader from './Loader';
 
 const BusDetails = () => {
@@ -57,7 +56,6 @@ const BusDetails = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer newestOnTop autoClose={2000} />
         </div>
     )
 }

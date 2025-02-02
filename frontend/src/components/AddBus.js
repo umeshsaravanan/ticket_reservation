@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess } from '../redux/slice'
-import { ToastContainer } from 'react-toastify'
 
 const AddBus = () => {
 
@@ -182,7 +181,6 @@ const AddBus = () => {
         <button className='px-8 py-2 text-white font-medium rounded-md bg-blue-600 hover:bg-blue-700' onClick={handleAdd}>Add</button>
         <button className='px-8 py-2 text-white font-medium rounded-md bg-gray-600 hover:bg-gray-700' onClick={() => navigate(-1)}>Back</button>
       </div>
-    <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

@@ -29,7 +29,7 @@ const BookedDetails = () => {
       }
     }
     getHistory();
-  }, [dispatch, redux, admin, username, history])
+  }, [dispatch, redux, admin, username])
 
   // const handleDeleteAll = async() =>{
   //   try{

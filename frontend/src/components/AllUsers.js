@@ -5,7 +5,6 @@ import { notifyError, notifySuccess } from '../redux/slice';
 import { IonIcon } from '@ionic/react';
 import { arrowBackCircle } from 'ionicons/icons';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
 const AllUsers = () => {
 
@@ -73,7 +72,6 @@ const AllUsers = () => {
                     </tbody>
                 </table>
             </div>
-            <ToastContainer newestOnTop autoClose={2000} />
         </div>
     );
 }

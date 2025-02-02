@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
-import { ToastContainer } from 'react-toastify'
 import Loader from './Loader'
+
 const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
 
   const dispatch = useDispatch();
@@ -39,9 +39,6 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
         else {
           dispatch(notifyWarning('\u20B9' + response.data.penalty + ' Penalty Applied'))
           dispatch(notifySuccess('Tickets Cancelled'))
-          setTimeout(() => {
-            setHistory(prev => prev.filter(user => user._id !== history._id));
-          }, 2000)
         }
       } catch (err) {
         dispatch(notifyError(err))
@@ -63,12 +60,12 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
             <p>{history.bus.end}</p>
           </div>
           <h1 className='flex'>Booked Seats : {history.choosenSeats ? history.choosenSeats.map((seat, index) => (
-            <p key={index}>{seat ? (index + 1) + ' ' : null}</p>
+            <pre key={index}>{seat ? (index + 1) + ' ' : null}</pre>
           )) : null}</h1>
           <p>Date : {history.bus.date.split('T')[0]}</p>
         </div>
         <div className='flex gap-2 flex-col sm:flex-row'>
-          <div className={`group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-xl cursor-pointer ${history.cancelled ? 'text-red-500' : 'text-green-500'}`} title='status'>
+          <div className={`group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-xl ${history.cancelled ? 'text-red-500' : 'text-green-500'}`} title='status'>
             <IonIcon icon={checkmarkDone} className={`group-hover:scale-[1.3] `} /><p className='text-sm hidden sm:block'>{history.cancelled ? 'Cancelled' : 'Confirmed'}</p>
           </div>
           {admin ? (<div className='group flex items-center justify-center bg-slate-200 shadow-xl p-4 rounded-lg text-red-500 text-xl cursor-pointer' onClick={handleHistoryDelete}>
@@ -79,7 +76,6 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
         </div>
       </div>
       {isLoading && <Loader />}
-      <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

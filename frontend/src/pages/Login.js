@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { notifyError, setUserEmail, setUserName, setUserRole, toggleLoading } from '../redux/slice';
-import { ToastContainer } from 'react-toastify';
 import ClipLoader from "react-spinners/ClipLoader";
 import backgroundImage from '../images/loginImage.jpg'
 const Login = () => {
@@ -98,7 +97,6 @@ const Login = () => {
 
       </div>
       </div>
-      <ToastContainer newestOnTop />
     </div>
   );
 };

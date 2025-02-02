@@ -4,7 +4,6 @@ import { arrowDownOutline } from 'ionicons/icons';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { notifySuccess, notifyError, notifyWarning, toggleMap, toggleInfo } from '../redux/slice';
 import Location from './Location';
 import Infocard from './InfoCard';
@@ -284,7 +283,6 @@ const SingleBus = () => {
       {fromCoordinates && toCoordinates && <Location from={fromCoordinates} to={toCoordinates} />}
       {infoVisible && <Infocard text={'Booking Confirmed'}/>}
       {isLoading && <Loader />}
-      <ToastContainer newestOnTop autoClose={2000} />
     </div>
   )
 }

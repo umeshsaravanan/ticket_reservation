@@ -3,7 +3,6 @@ import React, { useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { notifyError, toggleLoading } from '../redux/slice';
-import { ToastContainer } from 'react-toastify';
 import ClipLoader from "react-spinners/ClipLoader";
 import backgroundImage from '../images/registerImage.jpeg';
 
@@ -157,7 +156,6 @@ const Register = () => {
           </div>
         </form>
       </div>
-      <ToastContainer newestOnTop />
     </div>
     </div>
   );
