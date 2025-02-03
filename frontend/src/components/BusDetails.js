@@ -10,6 +10,7 @@ import Loader from './Loader';
 
 const BusDetails = () => {
     const [buses, setBuses] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ const BusDetails = () => {
     const admin = sessionStorage.getItem('role') === '2003';
 
     useEffect(() => {
+        setIsLoading(true);
         async function fetchData() {
             try {
                 let response;
@@ -30,8 +32,9 @@ const BusDetails = () => {
                 else
                     dispatch(notifyError(response.data.err))
             } catch (err) {
-                dispatch(notifyError('Error Occured in Fetching Data'));
+                dispatch(notifyError('Internal Server Error'));
             }
+            setIsLoading(false);
         }
         fetchData();
     }, [dispatch, admin])
@@ -49,9 +52,9 @@ const BusDetails = () => {
                 <div className='mx-auto'>
                     <div className='flex flex-col sm:flex-row sm:flex-wrap justify-start h-[80vh] overflow-y-scroll pb-4 md:gap-8 md:ml-12'>
                         {
-                            buses ? buses.map((bus, index) => (
+                            isLoading ? <Loader/> : buses?.length > 0 ? buses.map((bus, index) => (
                                 <BusCard busDetails={bus} setBuses={setBuses} key={index} />
-                            )) : <Loader/>
+                            )) : <p className='flex justify-center w-full p-4'>No Bus Available Currently</p>
                         }
                     </div>
                 </div>

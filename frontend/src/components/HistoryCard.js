@@ -6,7 +6,7 @@ import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
 import Loader from './Loader'
 
-const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
+const HistoryCard = ({ history, setHistory, list }) => {
 
   const dispatch = useDispatch();
   const admin = sessionStorage.getItem('role') === '2003';
@@ -18,7 +18,6 @@ const HistoryCard = ({ history, setHistory, setDisplay, list }) => {
 
       if (response.data.msg) {
         setHistory(prev => prev.filter(user => user._id !== history._id));
-        setDisplay(list.length > 0);
       }
       else
         dispatch(notifyError('Error deleting History'))

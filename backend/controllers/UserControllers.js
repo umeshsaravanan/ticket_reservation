@@ -16,7 +16,7 @@ const getAllBus = async (req, res) => {
             return busDateTime >= currentDateTime;
         });
 
-        res.json({ array: filteredBuses });
+        res.json({ array: [] });
     } catch (err) {
         console.log(err);
         res.status(500).json({ err: "Error fetching bus details" });
