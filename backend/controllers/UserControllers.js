@@ -33,8 +33,8 @@ const getSearchBus = async (req,res)=>{
             busDateTime.setHours(bus.startTime, 0, 0, 0);
 
             return busDateTime >= currentDateTime && 
-                   bus.start.toLowerCase().startsWith(req.body.from.toLowerCase()) && 
-                   bus.end.toLowerCase().startsWith(req.body.to.toLowerCase());
+                   bus.start.toLowerCase().startsWith(req.body.from.toLowerCase().trim()) && 
+                   bus.end.toLowerCase().startsWith(req.body.to.toLowerCase().trim());
         });
 
         res.json({ array: filteredBuses });
