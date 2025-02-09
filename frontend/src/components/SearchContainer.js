@@ -17,7 +17,7 @@ const SearchContainer = () => {
     }
 
     return (
-        <div>
+        <div className='sm:w-full w-[300px] p-2'>
             <form className='flex gap-4 flex-col sm:flex-row'>
 
                 <div className='flex gap-2 items-center justify-between'>
@@ -26,7 +26,7 @@ const SearchContainer = () => {
                     value={from}
                         type="text"
                         name="from"
-                        class="border border-gray-300 rounded-lg px-4 py-1 focus:outline-none"
+                        class="border border-gray-300 rounded-lg px-4 py-1 focus:outline-none w-full"
                         onChange={(e) =>{handleFromChange(e)}}
                     />
                 </div>
@@ -37,7 +37,7 @@ const SearchContainer = () => {
                     value={to}
                         type="text"
                         name="to"
-                        class="border border-gray-300 rounded-lg px-4 py-1 focus:outline-none"
+                        class="border border-gray-300 rounded-lg px-4 py-1 focus:outline-none w-full"
                         onChange={(e) =>{handleToChange(e)}}
                     />
                 </div>
