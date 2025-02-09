@@ -17,10 +17,10 @@ const SearchContainer = () => {
     }
 
     return (
-        <div className='p-4'>
-            <form className='flex gap-4'>
+        <div>
+            <form className='flex gap-4 flex-col sm:flex-row'>
 
-                <div className='flex gap-2 items-center'>
+                <div className='flex gap-2 items-center justify-between'>
                     <label htmlFor="from">From</label>
                     <input
                     value={from}
@@ -31,7 +31,7 @@ const SearchContainer = () => {
                     />
                 </div>
 
-                <div className='flex gap-2 items-center'>
+                <div className='flex gap-2 items-center justify-between'>
                     <label htmlFor="to">To</label>
                     <input
                     value={to}
