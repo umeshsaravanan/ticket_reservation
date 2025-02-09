@@ -7,10 +7,11 @@ import { IonIcon } from '@ionic/react'
 import { arrowBackCircle } from 'ionicons/icons'
 import { useNavigate } from 'react-router-dom'
 import Loader from './Loader'
+import { useAllContext } from '../context/AllContext'
 
 const BookedDetails = () => {
   const [history, setHistory] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+    const { isLoading, setLoaderCallback } = useAllContext();
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const BookedDetails = () => {
   const username = sessionStorage.getItem('username');
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoaderCallback(true);
 
     async function getHistory() {
       try {
@@ -29,9 +30,11 @@ const BookedDetails = () => {
       } catch (err) {
         dispatch(notifyError(err))
       }
-      setIsLoading(false);
+      setLoaderCallback(false);
     }
     getHistory();
+
+    //eslint-disable-next-line
   }, [dispatch, redux, admin, username])
 
   // const handleDeleteAll = async() =>{

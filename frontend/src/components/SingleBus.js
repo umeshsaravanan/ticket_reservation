@@ -8,11 +8,11 @@ import { notifySuccess, notifyError, notifyWarning, toggleMap, toggleInfo } from
 import Location from './Location';
 import Infocard from './InfoCard';
 import Loader from './Loader';
+import { useAllContext } from '../context/AllContext';
 
 const SingleBus = () => {
 
   const [bus, setBus] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
   const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
   const [date, setDate] = useState('')
@@ -28,6 +28,7 @@ const SingleBus = () => {
   const [startLng, setStartLng] = useState(0)
   const [endLat, setEndLat] = useState(0)
   const [endLng, setEndLng] = useState(0)
+  const { isLoading, setLoaderCallback } = useAllContext();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -68,13 +69,13 @@ const SingleBus = () => {
   }, [id, dispatch])
 
   const handleConfirm = async () => {
-    setIsLoading(true);
+    setLoaderCallback(true);
 
-    if(countSelectedSeats === 0){
+    if (countSelectedSeats === 0) {
       dispatch(notifyError('Select a Seat'));
       return;
     }
-    
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/${id}/${user}/confirmticket`, {
         list,
@@ -95,7 +96,7 @@ const SingleBus = () => {
     } catch (err) {
       dispatch(notifyError(err))
     }
-    setIsLoading(false);
+    setLoaderCallback(false);
   }
 
   const handleSubmit = async () => {
@@ -104,9 +105,9 @@ const SingleBus = () => {
       const response = await axios.put(`${process.env.REACT_APP_BASE_URI}/admin/update/${id}`, {
         start,
         end,
-        startTime : Number(startTime),
-        endTime : Number(endTime),
-        date : new Date(date),
+        startTime: Number(startTime),
+        endTime: Number(endTime),
+        date: new Date(date),
         travelHrs,
         startCo: {
           lat: Number(startLat),
@@ -130,14 +131,14 @@ const SingleBus = () => {
     }
   }
 
-  const handleEmpty = async ()=>{
-    try{
-      const response = await axios.put(`${process.env.REACT_APP_BASE_URI}/admin/emptyseats/${id}`,{
-        list : new Array(32).fill(0)
+  const handleEmpty = async () => {
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_BASE_URI}/admin/emptyseats/${id}`, {
+        list: new Array(32).fill(0)
       })
-      if(response.data.msg)
+      if (response.data.msg)
         dispatch(notifySuccess('Updated to DB'));
-    }catch(err){
+    } catch (err) {
       console.log(err)
       dispatch(notifyError('Error Occured'))
     }
@@ -281,7 +282,7 @@ const SingleBus = () => {
         </div>
       </div>
       {fromCoordinates && toCoordinates && <Location from={fromCoordinates} to={toCoordinates} />}
-      {infoVisible && <Infocard text={'Booking Confirmed'}/>}
+      {infoVisible && <Infocard text={'Booking Confirmed'} />}
       {isLoading && <Loader />}
     </div>
   )

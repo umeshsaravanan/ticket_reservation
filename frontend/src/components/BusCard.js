@@ -5,11 +5,14 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { notifyError, notifySuccess } from '../redux/slice'
+import { useAllContext } from '../context/AllContext'
 
-const BusCard = ({busDetails, setBuses}) => {
+const BusCard = ({busDetails}) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { setBusCallback } = useAllContext();
+
     const admin = sessionStorage.getItem('role') === '2003';
 
     const handleDelete = async () => {
@@ -19,7 +22,7 @@ const BusCard = ({busDetails, setBuses}) => {
           if (response.data.msg) {
             dispatch(notifySuccess("deleted Successfully"));
             setTimeout(()=>{
-                setBuses(prevBuses => prevBuses.filter(bus => bus._id !== busDetails._id));
+                setBusCallback(prevBuses => prevBuses.filter(bus => bus._id !== busDetails._id));
             },2000)
           }
           else {

@@ -1,16 +1,17 @@
 import { IonIcon } from '@ionic/react'
 import { arrowDown, checkmarkDone, close, trash } from 'ionicons/icons'
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { notifyError, notifySuccess, notifyWarning } from '../redux/slice'
 import axios from 'axios'
 import Loader from './Loader'
+import { useAllContext } from '../context/AllContext'
 
 const HistoryCard = ({ history, setHistory, list }) => {
 
   const dispatch = useDispatch();
   const admin = sessionStorage.getItem('role') === '2003';
-  const [isLoading, setIsLoading] = useState(false);
+  const {isLoading, setLoaderCallback } = useAllContext();
 
   const handleHistoryDelete = async () => {
     try {
@@ -29,10 +30,10 @@ const HistoryCard = ({ history, setHistory, list }) => {
   const handleCancel = async () => {
     const confirm = window.confirm("Cancelling Tickets will results in Penalty deduction!!")
     if (confirm) {
-      setIsLoading(true);
+      setLoaderCallback(true);
       try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/cancel`, history)
-        setIsLoading(false);
+        setLoaderCallback(false);
         if (response.data.err)
           dispatch(notifyError(response.data.err))
         else {

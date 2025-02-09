@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import BusCard from './BusCard';
 import { useDispatch } from 'react-redux';
@@ -7,10 +7,10 @@ import { IonIcon } from '@ionic/react';
 import { add } from 'ionicons/icons';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
+import { useAllContext } from '../context/AllContext';
 
 const BusDetails = () => {
-    const [buses, setBuses] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const {buses, setBusCallback, isLoading, setLoaderCallback} = useAllContext();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const BusDetails = () => {
     const admin = sessionStorage.getItem('role') === '2003';
 
     useEffect(() => {
-        setIsLoading(true);
+        setLoaderCallback(true);
         async function fetchData() {
             try {
                 let response;
@@ -28,15 +28,17 @@ const BusDetails = () => {
                     response = await axios.get(`${process.env.REACT_APP_BASE_URI}/`);
 
                 if (response.data.array)
-                    setBuses(response.data.array);
+                    setBusCallback(response.data.array);
                 else
                     dispatch(notifyError(response.data.err))
             } catch (err) {
                 dispatch(notifyError('Internal Server Error'));
             }
-            setIsLoading(false);
+            setLoaderCallback(false);
         }
         fetchData();
+
+        // eslint-disable-next-line
     }, [dispatch, admin])
 
     return (
@@ -53,7 +55,7 @@ const BusDetails = () => {
                     <div className='flex flex-col sm:flex-row sm:flex-wrap justify-start h-[80vh] overflow-y-scroll pb-4 md:gap-8 md:ml-12'>
                         {
                             isLoading ? <Loader/> : buses?.length > 0 ? buses.map((bus, index) => (
-                                <BusCard busDetails={bus} setBuses={setBuses} key={index} />
+                                <BusCard busDetails={bus} setBuses={setBusCallback} key={index} />
                             )) : <p className='flex justify-center w-full p-4'>No Bus Available Currently</p>
                         }
                     </div>

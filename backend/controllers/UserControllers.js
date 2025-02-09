@@ -23,6 +23,27 @@ const getAllBus = async (req, res) => {
     }
 };
 
+const getSearchBus = async (req,res)=>{
+    try {
+        const currentDateTime = new Date();
+        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+
+        const filteredBuses = buses.filter(bus => {
+            const busDateTime = new Date(bus.date);
+            busDateTime.setHours(bus.startTime, 0, 0, 0);
+
+            return busDateTime >= currentDateTime && 
+                   bus.start.toLowerCase().startsWith(req.body.from.toLowerCase()) && 
+                   bus.end.toLowerCase().startsWith(req.body.to.toLowerCase());
+        });
+
+        res.json({ array: filteredBuses });
+    } catch (err) {
+        console.log(err);
+        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        res.status(500).json({ err: "Error fetching searching details", array: buses });
+    }
+}
 
 const getHistory = async (req, res) => {
     const username = req.params.username;
@@ -206,6 +227,7 @@ function sendMail(html, email, sub) {
 
 module.exports = {
     getAllBus,
+    getSearchBus,
     getSingleBus,
     getAvailableSeats,
     booking,
