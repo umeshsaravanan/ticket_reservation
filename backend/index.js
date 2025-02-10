@@ -3,7 +3,7 @@ const cors = require('cors');
 const { connectToDb, getDb } = require('./db')
 const bodyParser = require('body-parser');
 const { register, login } = require('./controllers/AuthControllers');
-const { getAllBus, getSearchBus, getSingleBus, getAvailableSeats, cancelTicket, booking, getHistory } = require('./controllers/UserControllers');
+const { getAllBus, getSearchBus, getSortedBus, getSingleBus, getAvailableSeats, cancelTicket, booking, getHistory } = require('./controllers/UserControllers');
 const { getAllHistory, deleteHistory, deleteAllHistory, addBus, updateBus, deleteBus, getAllUsers, deleteUser, allBus, emptySeats } = require('./controllers/AdminControllers');
 require('dotenv').config()
 const PORT = process.env.PORT || 5001;
@@ -29,6 +29,7 @@ app.post('/login', login);
 
 app.get('/', getAllBus);
 app.post('/search', getSearchBus);
+app.post('/sort', getSortedBus);
 app.get('/gethistory/:username', getHistory);
 app.get('/:id', getSingleBus);
 app.get('/availableseats/:id', getAvailableSeats)

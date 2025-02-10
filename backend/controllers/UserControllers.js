@@ -45,6 +45,38 @@ const getSearchBus = async (req,res)=>{
     }
 }
 
+const getSortedBus = async (req,res)=>{
+    try {
+        const sortBy = req.body.sortBy;
+        const orderBy = req.body.orderBy;
+        const currentDateTime = new Date();
+        
+        let buses;
+        if(sortBy === "date"){
+            buses = await Bus.find().sort({date: 1, startTime: 1});
+        }else{
+            buses = await Bus.find().sort({[sortBy] : 1 });
+        }
+
+        const filteredBuses = buses.filter(bus => {
+            const busDateTime = new Date(bus.date);
+            busDateTime.setHours(bus.startTime, 0, 0, 0);
+
+            return busDateTime >= currentDateTime;
+        });
+
+        if(orderBy === "DESC"){
+            filteredBuses = filteredBuses.reverse();
+        }
+
+        res.json({ array: filteredBuses });
+    } catch (err) {
+        console.log(err);
+        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        res.status(500).json({ err: "Error in sorting details", array: buses });
+    }
+}
+
 const getHistory = async (req, res) => {
     const username = req.params.username;
     try {
@@ -228,6 +260,7 @@ function sendMail(html, email, sub) {
 module.exports = {
     getAllBus,
     getSearchBus,
+    getSortedBus,
     getSingleBus,
     getAvailableSeats,
     booking,
