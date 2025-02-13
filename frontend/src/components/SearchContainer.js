@@ -5,14 +5,15 @@ import { useAllContext } from '../context/AllContext';
 const SearchContainer = () => {
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
-    const { setBusCallback, setLoaderCallback } = useAllContext();
+    const { setBusCallback, setLoaderCallback, sortBy } = useAllContext();
 
     const handleSearch = async () => {
         setLoaderCallback(true);
 
         const searchParams = {
             from,
-            to
+            to,
+            sortBy
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/search`, searchParams);
         setBusCallback(response.data.array);

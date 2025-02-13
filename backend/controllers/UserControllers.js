@@ -19,14 +19,20 @@ const getAllBus = async (req, res) => {
         res.json({ array: filteredBuses });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ err: "Error fetching bus details" });
+        res.json({ err: "Error fetching bus details" });
     }
 };
 
 const getSearchBus = async (req,res)=>{
     try {
         const currentDateTime = new Date();
-        const buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        let buses;
+
+        if(req.body.sortBy){
+            buses = await Bus.find().sort({[req.body.sortBy] : 1 });
+        }else{
+            buses = await Bus.find().sort({ date: 1, startTime: 1 });
+        }
 
         const filteredBuses = buses.filter(bus => {
             const busDateTime = new Date(bus.date);
@@ -41,7 +47,7 @@ const getSearchBus = async (req,res)=>{
     } catch (err) {
         console.log(err);
         const buses = await Bus.find().sort({ date: 1, startTime: 1 });
-        res.status(500).json({ err: "Error fetching searching details", array: buses });
+        res.json({ err: "Error fetching searching details", array: buses });
     }
 }
 

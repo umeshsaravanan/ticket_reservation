@@ -7,6 +7,7 @@ export const useAllContext = () => useContext(allContext);
 const AllContext = ({ children }) => {
     const [buses, setBuses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [sortBy, setSortBy] = useState(null);
 
     const setBusCallback = (buses) => {
         setBuses(buses);
@@ -16,12 +17,18 @@ const AllContext = ({ children }) => {
         setIsLoading(isLoading);
     }
 
+    const setSortByCallback = (sortBy) =>{
+        setSortBy(sortBy);
+    }
+
     return (
         <allContext.Provider value={{
             buses,
+            sortBy,
             isLoading,
             setBusCallback,
-            setLoaderCallback
+            setLoaderCallback,
+            setSortByCallback
         }}>
             {children}
         </allContext.Provider>

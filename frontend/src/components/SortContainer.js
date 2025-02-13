@@ -3,7 +3,7 @@ import { useAllContext } from '../context/AllContext'
 import axios from 'axios';
 
 const SortContainer = () => {
-  const { setBusCallback, setLoaderCallback } = useAllContext();
+  const { setBusCallback, setLoaderCallback, setSortByCallback } = useAllContext();
 
   const handleSelectChange = async (e) => {
     let selectedValue = e.target.value;
@@ -21,6 +21,7 @@ const SortContainer = () => {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URI}/sort`, sortParams);
     setBusCallback(response.data.array);
     setLoaderCallback(false);
+    setSortByCallback(selectedValue);
   }
   return (
     <div className='flex gap-2 items-center'>
